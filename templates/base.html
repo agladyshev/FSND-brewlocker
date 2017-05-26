@@ -51,9 +51,11 @@
 {% block content %}
 
   {% for message in get_flashed_messages() %}
-  <div class="alert alert-warning">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{ message }}
+  <div class="success callout" data-closable>
+    {{ message }}
+    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   {% endfor %}
    

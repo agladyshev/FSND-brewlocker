@@ -5,8 +5,12 @@
 {% block page_content %}
 <div class="row column">
 
-  <p>Pleased to meet you!</p>
-
+  <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+  <form method="POST" action="/">
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(size=20) }}
+    <input type="submit" value="Go">
+  </form>
 </div>
 
 {% endblock %}
