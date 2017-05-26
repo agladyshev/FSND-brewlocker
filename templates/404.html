@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}BrewLocker - Page Not Found{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="column">
+    <h1>Page not found</h1>
+    <p>Sorry, the page is nowhere to be found
+    <p><a class="label" href="{{ url_for('index') }}">Go somewhere nice</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky - Internal Server Error{% endblock %}
+
+{% block content %}
+<div class="row column">
+  <h1>Internal Server Error</h1>
+  <p>Don't worry, we'll sort this out as soon as possible
+  <p><a class="label" href="{{ url_for('index') }}">Go somewhere nice</a>
+</div>
+{% endblock %}
