@@ -1,0 +1,40 @@
+{% extends "foundation.html" %}
+
+{% block title %}BrewLocker{% endblock %}
+
+{% block head %}
+{{ super() }}
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Udacity Full Stack Nanodegree project" />
+<meta name="author" content="//github.com/agladyshev">
+<meta name="mobile-web-app-capable" content="yes">
+<meta charset="utf-8"/>
+<title>BrewLocker</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='udacity_logo.png') }}">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300&amp;subset=cyrillic" rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
