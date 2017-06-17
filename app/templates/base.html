@@ -35,15 +35,15 @@
   <!--row is expanded to full vw to place gradient if needed-->
   <div class="row">
     <!--div takes 100% width, so we use row class with fixed max-width to center content-->
-    
+    {% if current_user.is_authenticated %}
     <ul class="menu small-12 column simple text-right">
-      <li><a href="{{url_for('main.index')}}">Login</a></li>
+      <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
     </ul>
-    
+    {% else %}
     <ul class="menu small-12 column simple text-right">
-      <li><a href="{{url_for('main.index')}}">Logout</a></li>
+      <li><a href="{{url_for('auth.login')}}">Login</a></li>
     </ul>
-    
+    {% endif %}
   </div>
 </nav>
 {% endblock %}

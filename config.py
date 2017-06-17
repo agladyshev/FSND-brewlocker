@@ -14,7 +14,20 @@ class Config:
     BREWLOCKER_MAIL_SUBJECT_PREFIX = '[BrewLocker]'
     BREWLOCKER_MAIL_SENDER = 'BrewLocker Admin'
     BREWLOCKER_ADMIN = os.environ.get('BREWLOCKER_ADMIN')
-
+    OAUTH_CREDENTIALS = {
+        'facebook': {
+            'id': '111262736058256',
+            'secret': 'e79921d4781bedbd7dade8811ab32f9b'
+        },
+        'twitter': {
+            'id': 'oMG4NWeOFb5Yy6NUUeXtt5WTd',
+            'secret': 'DK36BohrTXrOfLgIXsc0T7l5VfWleFY2io6m6YMrJ794h9Qm7R'
+        },
+        'google': {
+            'id': '312958319092-t72jvbratej6v1aac1cr4efg6sboj753.apps.googleusercontent.com',
+            'secret': 'LqJmuY3-s7A8q5vW1pTAH3wu'
+        }
+    }
     @staticmethod
     # configuration-specific initialization
     def init_app(app):
