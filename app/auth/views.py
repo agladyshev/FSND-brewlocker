@@ -32,14 +32,13 @@ def oauth_callback(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
     oauth = OAuthSignIn.get_provider(provider)
-    provider_id, username, email = oauth.callback()
-    # provider_id = oauth.callback()
+    provider_id, username = oauth.callback()
     if provider_id is None:
         flash('Authentication failed.')
         return redirect(url_for('main.index'))
     user = User.query.filter_by(provider_id=provider_id).first()
     if not user:
-        user = User(provider_id=provider_id, username=username, email=email)
+        user = User(provider_id=provider_id, username=username)
         db.session.add(user)
         db.session.commit()
     login_user(user, True)

@@ -16,12 +16,12 @@ class Config:
     BREWLOCKER_ADMIN = os.environ.get('BREWLOCKER_ADMIN')
     OAUTH_CREDENTIALS = {
         'facebook': {
-            'id': '111262736058256',
-            'secret': 'e79921d4781bedbd7dade8811ab32f9b'
+            'id': '1849498792045942',
+            'secret': 'd81f26d702a5173727066a0928e5f752'
         },
-        'twitter': {
-            'id': 'oMG4NWeOFb5Yy6NUUeXtt5WTd',
-            'secret': 'DK36BohrTXrOfLgIXsc0T7l5VfWleFY2io6m6YMrJ794h9Qm7R'
+        'github': {
+            'id': '88ce38d7ff8024328136',
+            'secret': 'ef273943075636518d281268703d8ef8f54e9f9e'
         },
         'google': {
             'id': '312958319092-t72jvbratej6v1aac1cr4efg6sboj753.apps.googleusercontent.com',
