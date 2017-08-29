@@ -22,7 +22,7 @@ def index():
 
 @main.route('/new', methods=['GET', 'POST'])
 def newItem():
-    return render_template('index.html')
+    return render_template('new_item.html')
 
 @main.route('/<int:item_id>', methods=['GET'])
 def getItem(item_id):
@@ -30,13 +30,21 @@ def getItem(item_id):
 
 
 @main.route('/<int:item_id>/edit', methods=['GET', 'POST'])
+@login_required
 def editItem(item_id):
     return render_template('index.html')
 
 
 @main.route('/<int:item_id>/delete', methods=['GET', 'POST'])
+@login_required
 def deleteItem(item_id):
     return render_template('index.html')
+
+
+@main.route('/user/<int:id>', methods=['GET'])
+@login_required
+def getProfile(item_id):
+    return render_template('profile.html')    
 
 
 @main.route('/admin')
