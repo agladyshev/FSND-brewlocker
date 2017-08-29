@@ -9,5 +9,5 @@ class ItemForm(FlaskForm):
     body = TextAreaField("Tell me everything", validators=[Required()])
     img_url = StringField("Enter item image URL",
                           validators=[Required(), URL()])
-    phone = StringField('Phone', validators=[Required(), Length(1, 20),])
+    phone = StringField('Phone', validators=[Required(), Length(1, 20), ])
     submit = SubmitField('Submit')

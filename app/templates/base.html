@@ -36,14 +36,17 @@
   <div class="row">
     <!--div takes 100% width, so we use row class with fixed max-width to center content-->
     {% if current_user.is_authenticated %}
-    <ul class="vertical menu align-right">
-      <li><a>{{ current_user.username }}</a></li>
-      <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
-    </ul>
-    {% else %}
-    <ul class="vertical menu align-right">
-      <li><a href="{{url_for('auth.login')}}">Login</a></li>
-    </ul>
+    <div class="column large-push-9 large-3 medium-push-8 medium-4 small-push-6 small-6">
+      <ul class="vertical menu align-right ">
+        <li><a>{{ current_user.username }}</a></li>
+        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+      </ul>
+      {% else %}
+      <ul class="vertical menu align-right column large-3">
+        <li><a href="{{url_for('auth.login')}}">Login</a></li>
+      </ul>
+    </div>
+
     {% endif %}
   </div>
 </nav>
