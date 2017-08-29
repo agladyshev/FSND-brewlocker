@@ -34,6 +34,7 @@ class OAuthSignIn(object):
 
 
 class FacebookSignIn(OAuthSignIn):
+
     def __init__(self):
         super(FacebookSignIn, self).__init__('facebook')
         self.service = OAuth2Service(
@@ -71,7 +72,9 @@ class FacebookSignIn(OAuthSignIn):
             me.get('email')
         )
 
+
 class GithubSignIn(OAuthSignIn):
+
     def __init__(self):
         super(GithubSignIn, self).__init__('github')
         self.service = OAuth2Service(
@@ -91,8 +94,44 @@ class GithubSignIn(OAuthSignIn):
         )
 
     def callback(self):
+        if 'code' not in request.args:
+            return None, None, None
+        oauth_session = self.service.get_auth_session(
+            data={'code': request.args['code'],
+                  'grant_type': 'authorization_code',
+                  'redirect_uri': self.get_callback_url()},
+        )
+        me = oauth_session.get('https://api.github.com/user').json()
+        return (
+            'github$' + str(me['id']),
+            me['name'],
+            me['email']
+        )
+
+
+class GoogleSignIn(OAuthSignIn):
+
+    def __init__(self):
+        super(GoogleSignIn, self).__init__('google')
+        self.service = OAuth2Service(
+            name='google',
+            client_id=self.consumer_id,
+            client_secret=self.consumer_secret,
+            authorize_url='https://accounts.google.com/o/oauth2/auth',
+            access_token_url='https://accounts.google.com/o/oauth2/token',
+            base_url='https://accounts.google.com/'
+        )
+
+    def authorize(self):
+        return redirect(self.service.get_authorize_url(
+            scope='email profile',
+            response_type='code',
+            redirect_uri=self.get_callback_url())
+        )
+
+    def callback(self):
         def decode_json(payload):
-            return json.loads(payload)
+            return json.loads(payload.decode('utf-8'))
 
         if 'code' not in request.args:
             return None, None, None
@@ -100,12 +139,11 @@ class GithubSignIn(OAuthSignIn):
             data={'code': request.args['code'],
                   'grant_type': 'authorization_code',
                   'redirect_uri': self.get_callback_url()},
-            # decoder=decode_json
+            decoder=decode_json
         )
-        me = oauth_session.get('https://api.github.com/user').json()
-        print me
+        me = oauth_session.get('https://www.googleapis.com/oauth2/v1/userinfo').json()
         return (
-            'github$' + str(me['id']),
+            'google$' + me['id'],
             me['name'],
-            me['email']
+            me.get('email')
         )

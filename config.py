@@ -24,8 +24,8 @@ class Config:
             'secret': 'ef273943075636518d281268703d8ef8f54e9f9e'
         },
         'google': {
-            'id': '312958319092-t72jvbratej6v1aac1cr4efg6sboj753.apps.googleusercontent.com',
-            'secret': 'LqJmuY3-s7A8q5vW1pTAH3wu'
+            'id': '433026741879-pji3tinhbp21el6tnv6b0u4btmnijr3q.apps.googleusercontent.com',
+            'secret': 'bMi4fF_05yRr0DfSIeFbpk7p'
         }
     }
     @staticmethod
