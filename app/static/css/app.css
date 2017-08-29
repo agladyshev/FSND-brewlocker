@@ -82,8 +82,8 @@ h1 {
   display: none;
 }
 
-.edit__icon, .remove__icon {
-  padding: 0.5rem;
+.edit__icon, .remove__icon, .info__icon {
+  padding: 0.4rem;
   margin: 0.1rem;
 }
 
@@ -92,7 +92,7 @@ h1 {
 }
 
 .link-hover:hover .icon-hover {
-  fill: #02b3e4 ;
+  fill: #2ba6cb ;
   /*change the color of svg path in icon on mouse hover*/
     /*CSS validator will throw an error, because svg properties
     are not yet included to CSS*/

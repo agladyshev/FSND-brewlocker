@@ -28,6 +28,7 @@ class Config:
             'secret': 'bMi4fF_05yRr0DfSIeFbpk7p'
         }
     }
+    BREWLOCKER_POSTS_PER_PAGE = 18
     @staticmethod
     # configuration-specific initialization
     def init_app(app):

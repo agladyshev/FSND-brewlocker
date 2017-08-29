@@ -1,0 +1,21 @@
+To launch locally:
+- Clone repository
+- Open Terminal in the project directory
+- Create virtual environment `virtualenv venv`
+- Activate virtual environment `source venv/bin/activate`
+- Install dependencies `pip install -r requirements/dev.txt`
+- To set up admin account `export BREWLOCKER_ADMIN=*mail address connected to oauth provider you use*`
+- Set up gmail smtp `export MAIL_USERNAME=*`, `export MAIL_PASSWORD=`
+- Run tests `python manage.py test`
+- Activate shell `python manage.py shell`
+- Create development db `db.create_all`
+- Insert user roles `Role.insert_roles()`
+- Exit shell `ctrl+D`
+- Run server `python manage.py runserver`
+- Open `http://localhost:5000` in your browser
+- Login with any provider
+- To test admin privileges, login with provider accociated with BREWLOCKER_ADMIN mail address
+- Stop server, launch shell
+- Generate fake data with `User.generate_fake()` and `Item.generate_fake()`
+- Start server and explore
+

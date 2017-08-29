@@ -36,11 +36,12 @@
   <div class="row">
     <!--div takes 100% width, so we use row class with fixed max-width to center content-->
     {% if current_user.is_authenticated %}
-    <ul class="menu small-12 column simple text-right">
+    <ul class="vertical menu align-right">
+      <li><a>{{ current_user.username }}</a></li>
       <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
     </ul>
     {% else %}
-    <ul class="menu small-12 column simple text-right">
+    <ul class="vertical menu align-right">
       <li><a href="{{url_for('auth.login')}}">Login</a></li>
     </ul>
     {% endif %}

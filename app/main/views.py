@@ -1,6 +1,7 @@
-from flask import render_template, session, redirect, url_for, current_app
+from flask import render_template, session, redirect, url_for, current_app,\
+    request
 from .. import db
-from ..models import User
+from ..models import User, Item, Permission
 from ..email import send_email
 from . import main
 from .forms import NameForm
@@ -10,6 +11,31 @@ from flask_login import login_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    page = request.args.get('page', 1, type=int)
+    pagination = Item.query.order_by(Item.timestamp.desc()).paginate(
+        page, per_page=current_app.config['BREWLOCKER_POSTS_PER_PAGE'],
+        error_out=False)
+
+    items = pagination.items
+    return render_template('index.html', items=items, pagination=pagination)
+
+
+@main.route('/new', methods=['GET', 'POST'])
+def newItem():
+    return render_template('index.html')
+
+@main.route('/<int:item_id>', methods=['GET'])
+def getItem(item_id):
+    return render_template('index.html')
+
+
+@main.route('/<int:item_id>/edit', methods=['GET', 'POST'])
+def editItem(item_id):
+    return render_template('index.html')
+
+
+@main.route('/<int:item_id>/delete', methods=['GET', 'POST'])
+def deleteItem(item_id):
     return render_template('index.html')
 
 
@@ -17,4 +43,4 @@ def index():
 @login_required
 @admin_required
 def for_admins_only():
-	return "For administrators!"
+    return "For administrators!"
