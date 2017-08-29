@@ -4,9 +4,9 @@ from .. import db
 from ..models import User, Item, Permission
 from ..email import send_email
 from . import main
-from .forms import NameForm
+from .forms import ItemForm
 from ..decorators import admin_required, permission_required
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -21,8 +21,20 @@ def index():
 
 
 @main.route('/new', methods=['GET', 'POST'])
+@login_required
 def newItem():
-    return render_template('new_item.html')
+    form = ItemForm()
+    if current_user.can(Permission.ADD_ITEMS) and \
+            form.validate_on_submit():
+        item = Item(header=form.header.data,
+                    body=form.description.data,
+                    phone=form.phone.data,
+                    img_url=form.img_url.data,
+                    author=current_user._get_current_object())
+        db.session.add(item)
+        return redirect(url_for('.index'))
+    return render_template('new_item.html', form=form)
+
 
 @main.route('/<int:item_id>', methods=['GET'])
 def getItem(item_id):
@@ -44,7 +56,7 @@ def deleteItem(item_id):
 @main.route('/user/<int:id>', methods=['GET'])
 @login_required
 def getProfile(item_id):
-    return render_template('profile.html')    
+    return render_template('profile.html')
 
 
 @main.route('/admin')
