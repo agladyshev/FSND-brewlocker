@@ -32,7 +32,6 @@ def newItem():
                     phone=form.phone.data,
                     author=current_user._get_current_object())
         db.session.add(item)
-        print "item created"
         item.save_img(images)
         return redirect(url_for('.index'))
     return render_template('new_item.html', form=form)
@@ -47,13 +46,18 @@ def getItem(item_id):
 @main.route('/<int:item_id>/edit', methods=['GET', 'POST'])
 @login_required
 def editItem(item_id):
+
     return render_template('edit_item.html')
 
 
-@main.route('/<int:item_id>/delete', methods=['GET', 'POST'])
+@main.route('/<int:item_id>/delete', methods=['POST'])
 @login_required
 def deleteItem(item_id):
-    return
+    item = Item.query.get_or_404(item_id)
+    if current_user != item.author:
+        abort(403)
+    db.session.delete(item)
+    return redirect(url_for('.index'))
 
 
 @main.route('/user/<int:user_id>', methods=['GET'])

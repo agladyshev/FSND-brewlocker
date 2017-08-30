@@ -1,0 +1,21 @@
+<a class="fi-x remove__icon" data-open="del{{item.id}}"></a>
+<div class="reveal" id="del{{item.id}}" data-reveal>
+  <div class="row column text-center">
+    <h2>Are you sure?</h2>
+    <p class="lead">It can't be undone</p>
+  </div>
+  <div class="row text-center">
+    <div class="column">
+      <form method="POST" action="{{ url_for('.deleteItem', item_id = item.id) }}">
+        <button type="submit" value="delete" class="alert button">Yes, delete</button>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />    
+      </form> 
+    </div>
+    <div class="column"> 
+      <button data-close aria-label="Close modal" class="button">No, go back</button>
+    </div>
+  </div>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+  <span aria-hidden="true">&times;</span>
+  </button>
+</div>
