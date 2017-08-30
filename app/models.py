@@ -131,9 +131,9 @@ class Item(db.Model):
             url = images_set.url(new_image)
             path = images_set.path(new_image)
             db_image = Image(author=current_user._get_current_object(),
-                          item=self,
-                          path=path,
-                          url=url)
+                             item=self,
+                             path=path,
+                             url=url)
             db.session.add(db_image)
             num += 1
 
@@ -154,6 +154,9 @@ class Item(db.Model):
                      phone=forgery_py.address.phone())
             print p.header, p.body, p.timestamp, p.author_id, p.phone
             db.session.add(p)
+            image = Image(author=u, item=p, path='test',
+                          url="http://via.placeholder.com/350x350")
+            db.session.add(image)
             db.session.commit()
 
 
