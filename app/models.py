@@ -1,5 +1,5 @@
 from datetime import datetime
-from . import db, login_manager, images
+from . import db, login_manager, images as images_set
 from flask_login import UserMixin, AnonymousUserMixin, current_user
 from flask import current_app
 import os
@@ -120,20 +120,22 @@ class Item(db.Model):
     phone = db.Column(db.String(20))
     images = db.relationship('Image', backref='item', lazy='dynamic')
 
-    def save_img(self, img):
+    def save_img(self, images):
         try:
-            img_num = self.images.first().count() + 1
+            num = self.images.first().count() + 1
         except:
-            img_num = 1
-        new_img = images.save(
-            img, name='{}_{}.'.format(str(self.id), str(img_num)))
-        url = images.url(new_img)
-        path = images.path(new_img)
-        image = Image(author=current_user._get_current_object(),
-                      item=self,
-                      path=path,
-                      url=url)
-        db.session.add(image)
+            num = 1
+        for image in images:
+            new_image = images_set.save(
+                image, name='{}_{}.'.format(str(self.id), str(num)))
+            url = images_set.url(new_image)
+            path = images_set.path(new_image)
+            db_image = Image(author=current_user._get_current_object(),
+                          item=self,
+                          path=path,
+                          url=url)
+            db.session.add(db_image)
+            num += 1
 
     @staticmethod
     def generate_fake(count=100):

@@ -40,7 +40,7 @@
           {% endif %}
         </div>
         <div class="row column text-center">
-          <a href='{{ url_for('main.getItem', item_id = item.id)}}'><img src={{item.images.url}}></a>
+        {% include '_images.html' %}
         </div>
       </div>
     {% endfor %}

@@ -26,18 +26,14 @@ def newItem():
     form = ItemForm()
     if current_user.can(Permission.ADD_ITEMS) and \
             form.validate_on_submit():
-        print "validate_on_submit"
-
-        img = form.img.data
+        images = request.files.getlist("img")
         item = Item(header=form.header.data,
                     body=form.body.data,
                     phone=form.phone.data,
                     author=current_user._get_current_object())
-
         db.session.add(item)
-
         print "item created"
-        item.save_img(img)
+        item.save_img(images)
         return redirect(url_for('.index'))
     return render_template('new_item.html', form=form)
 
