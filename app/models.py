@@ -1,7 +1,8 @@
 from datetime import datetime
-from . import db, login_manager
-from flask_login import UserMixin, AnonymousUserMixin
+from . import db, login_manager, images
+from flask_login import UserMixin, AnonymousUserMixin, current_user
 from flask import current_app
+import os
 
 
 class Role(db.Model):
@@ -37,6 +38,7 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+
 class Permission:
     VIEW_CONTACTS = 0x01
     COMMENT = 0x02
@@ -50,9 +52,11 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), nullable=True)
     username = db.Column(db.String(64), index=True, nullable=False)
-    provider_id = db.Column(db.String(64), unique=True, index=True, nullable=False)
+    provider_id = db.Column(db.String(64), unique=True,
+                            index=True, nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     items = db.relationship('Item', backref='author', lazy='dynamic')
+    images = db.relationship('Image', backref='author', lazy='dynamic')
 
     @staticmethod
     def generate_fake(count=5):
@@ -91,6 +95,7 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
+
     def can(self, permissions):
         return False
 
@@ -113,7 +118,22 @@ class Item(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone = db.Column(db.String(20))
-    img_url = db.Column(db.String(255))
+    images = db.relationship('Image', backref='item', lazy='dynamic')
+
+    def save_img(self, img):
+        try:
+            img_num = self.images.first().count() + 1
+        except:
+            img_num = 1
+        new_img = images.save(
+            img, name='{}_{}.'.format(str(self.id), str(img_num)))
+        url = images.url(new_img)
+        path = images.path(new_img)
+        image = Image(author=current_user._get_current_object(),
+                      item=self,
+                      path=path,
+                      url=url)
+        db.session.add(image)
 
     @staticmethod
     def generate_fake(count=100):
@@ -129,8 +149,17 @@ class Item(db.Model):
                      body=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
                      timestamp=forgery_py.date.date(True),
                      author=u,
-                     phone=forgery_py.address.phone(),
-                     img_url='http://via.placeholder.com/350x350')
-            print p.header, p.body, p.timestamp, p.author_id, p.phone, p.img_url
+                     phone=forgery_py.address.phone())
+            print p.header, p.body, p.timestamp, p.author_id, p.phone
             db.session.add(p)
             db.session.commit()
+
+
+class Image(db.Model):
+    __tablename__ = 'images'
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    path = db.Column(db.String(), nullable=False)
+    url = db.Column(db.String(), nullable=False)

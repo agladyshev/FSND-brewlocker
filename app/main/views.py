@@ -24,16 +24,20 @@ def index():
 @login_required
 def newItem():
     form = ItemForm()
-    print current_user.can(Permission.ADD_ITEMS)
     if current_user.can(Permission.ADD_ITEMS) and \
             form.validate_on_submit():
+        print "validate_on_submit"
+
+        img = form.img.data
         item = Item(header=form.header.data,
                     body=form.body.data,
                     phone=form.phone.data,
-                    img_url=form.img_url.data,
                     author=current_user._get_current_object())
-        print item
+
         db.session.add(item)
+
+        print "item created"
+        item.save_img(img)
         return redirect(url_for('.index'))
     return render_template('new_item.html', form=form)
 

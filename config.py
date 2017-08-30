@@ -14,6 +14,9 @@ class Config:
     BREWLOCKER_MAIL_SUBJECT_PREFIX = '[BrewLocker]'
     BREWLOCKER_MAIL_SENDER = 'BrewLocker Admin'
     BREWLOCKER_ADMIN = os.environ.get('BREWLOCKER_ADMIN')
+    UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'uploads')
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     OAUTH_CREDENTIALS = {
         'facebook': {
             'id': '1849498792045942',
