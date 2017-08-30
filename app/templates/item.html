@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}BrewLocker - Item page{% endblock %}
+
+{% block page_content %}
+
+<main>
+  <div class="row column">
+    <hr>
+  </div>
+  <div class="row">
+    <div class="column small-6">
+      <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h3>{{item.header}}</h3></a>
+    </div>
+    {% if item.author == current_user %}
+    <div class="column small-4 text-right">
+      <a class="edit__icon fi-pencil" href='{{ url_for('main.editItem', item_id = item.id)}}'></a>
+      <a class="fi-x remove__icon" href='{{ url_for('main.deleteItem', item_id = item.id)}}'></a>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="medium-6 small-12 column text-center">
+    {% include '_images.html' %}
+    </div>
+    <div class="medium-6 small-12 column text-right">
+      <div class="row">
+        <div class="column">
+          <h3>Description</h3>
+          <p>{{item.body}}</p>
+        </div>
+        <div class="column">
+          <div class="row">
+            <div class="small-12 column">
+              <button class="small button hollow ">{{item.phone}}</button>
+            </div>
+            <div class="small-12 column">
+              <button class="label">Published {{item.timestamp | timesince}}</button>
+            <div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+{% endblock %}
