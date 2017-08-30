@@ -26,13 +26,16 @@ def newItem():
     form = ItemForm()
     if current_user.can(Permission.ADD_ITEMS) and \
             form.validate_on_submit():
-        images = request.files.getlist("img")
+        
         item = Item(header=form.header.data,
                     body=form.body.data,
                     phone=form.phone.data,
                     author=current_user._get_current_object())
         db.session.add(item)
-        item.save_img(images)
+        images = request.files.getlist("img")
+        print images
+        if form.img.data:
+            item.save_img(images)
         return redirect(url_for('.index'))
     return render_template('new_item.html', form=form)
 
@@ -46,8 +49,15 @@ def getItem(item_id):
 @main.route('/<int:item_id>/edit', methods=['GET', 'POST'])
 @login_required
 def editItem(item_id):
-
-    return render_template('edit_item.html')
+    item = Item.query.get_or_404(item_id)
+    if current_user != item.author:
+        abort(403)
+    form = ItemForm(obj=item)
+    if form.validate_on_submit():
+        form.populate_obj(item)
+        db.session.add(item) 
+        return redirect(url_for('.index'))
+    return render_template('edit_item.html', item=item, form=form)
 
 
 @main.route('/<int:item_id>/delete', methods=['POST'])

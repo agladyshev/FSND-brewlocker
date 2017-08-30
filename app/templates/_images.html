@@ -1,4 +1,5 @@
-<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay:false; timerDelay:1000; bullets:false">
+{% if item.images.count() > 2 %}
+<div class="orbit" role="region" aria-label="Catalog images" data-orbit data-options="autoPlay:false; timerDelay:1000; bullets:false">
   <div class="orbit-wrapper">
     <div class="orbit-controls">
       <button class="orbit-previous"><span class="show-for-sr">Previous</span>&#9664;&#xFE0E;</button>
@@ -15,3 +16,14 @@
     </ul>
   </div>
 </div>
+{% elif item.images.count() == 1 %}
+<div>
+  <a href="{{ url_for('main.getItem', item_id = item.id)}}"><img src="{{item.images.first().url}}" alt="Product image"></a>
+</div>
+{% else %}
+<div>
+  <a href="{{ url_for('main.getItem', item_id = item.id)}}">
+    <img src="https://68.media.tumblr.com/d0a38f80109907933e528fc3e108bda3/tumblr_nv1a8d0a8D1uvq3s5o1_1280.png" alt="No image">
+  </a>
+</div>
+{% endif %}

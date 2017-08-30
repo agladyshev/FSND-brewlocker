@@ -122,7 +122,7 @@ class Item(db.Model):
 
     def save_img(self, images):
         try:
-            num = self.images.first().count() + 1
+            num = self.images.count() + 1
         except:
             num = 1
         for image in images:

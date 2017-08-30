@@ -9,8 +9,7 @@ from .. import images
 class ItemForm(FlaskForm):
     header = StringField("Your pitch here", validators=[Required()])
     body = TextAreaField("Tell me everything", validators=[Required()])
-    img = FileField('image', validators=[
-                    FileRequired(), FileAllowed(images, 'Images only!')])
+    img = FileField('image', validators=[FileAllowed(images, 'Images only!')])
     phone = StringField('Phone', validators=[Required(), Length(1, 20), ])
     submit = SubmitField('Submit')
 
