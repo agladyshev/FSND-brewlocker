@@ -74,10 +74,11 @@ def deleteItem(item_id):
 @login_required
 def deleteImage(item_id, image_id):
     item = Item.query.get_or_404(item_id)
-    image = Item.images.get_or_404(image_id)
+    image = item.images.filter_by(id=image_id).first()
     if current_user != image.author:
         abort(403)
     db.session.delete(image)
+    return redirect(url_for('.editItem', item_id=item_id))
 
 
 @main.route('/user/<int:user_id>', methods=['GET'])

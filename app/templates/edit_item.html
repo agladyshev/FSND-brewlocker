@@ -6,15 +6,21 @@
   <div class="row">
   <form class="column" method="POST" action="{{ url_for('.editItem', item_id=item.id) }}" enctype="multipart/form-data">
   {% include '_item_form.html' %}
-  <form>
+  </form>
   </div>
   <div>
     <div class="row small-up-1 medium-up-2 large-up-3">
       {% for image in item.images %}
-      <div class="column column-block data-closable">
-        <img src="{{image.url}}" alt="Product image">
-        <button class="close-button" type="button" data-close>  
-        </button>
+      <div class="column column-block">
+        <div class="callout small" data-closable>
+          <img src="{{image.url}}" alt="Product image">
+          <form method="POST" action="{{ url_for('.deleteImage', item_id = item.id, image_id=image.id) }}">
+            <button type="submit" value="delete" class="close-button" aria-label="Delete image" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> 
+          </form>   
+        </div>
       </div>
       {% endfor %}
     </div>
