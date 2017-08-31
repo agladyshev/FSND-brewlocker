@@ -2,15 +2,14 @@ body, h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather', serif;
 }
 
-body, main, nav {
+/*body, main, nav {
   background-color: #ededed;
-}
+}*/
 
-header {
-  padding-top: 2rem;
+/*header {
   background-image: linear-gradient(white, #ededed);
 }
-
+*/
 nav {
   padding-bottom: 0.5rem;
 }
@@ -43,6 +42,10 @@ a {
 h1 {
   line-height: 0.8;
 }
+
+.top-bar, .top-bar ul {
+  background-color: white;
+  }
 
 .login {
   max-width: 20rem;
@@ -101,9 +104,14 @@ h1 {
 .close-button {
   color: #0a0a0a;
   }
+  @media screen and (min-width: 40rem) {
+    .top-bar {
+      padding-top: 1.5rem;
+      }
 
+  }
 
-  @media screen and (min-width: 50rem) {
+  @media screen and (min-width: 64rem) {
     body {
       font-size: 20px;
     }
@@ -111,4 +119,8 @@ h1 {
     footer {
       font-size: 16px;
     }
+    
+
   }
+
+  

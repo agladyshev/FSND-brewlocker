@@ -2,22 +2,24 @@
 {% import "_macros.html" as macros %}
 {% block title %}BrewLocker{% endblock %}
 
-{% block page_content %}
+{% block menu %}
+{{ super() }}
+{% if current_user.can(Permission.ADD_ITEMS) %}
+<a class="button" href='{{ url_for('main.newItem') }}'>New item</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
 <main>
   <div class="row text-right">
     <div class="column medium-offset-6 large-offset-8 medium-6 large-4">
       <div class="row">
-        </div>
         <div class="column">
         {% if not items %}
           <p>You don't have any items yet</p>
         {% endif %}
         </div>
-        {% if current_user.id %}
-        <div class="column">
-          <a class="label" href='{{ url_for('main.newItem') }}'>Add new item</a>
-        </div>
-        {% endif %}
+        
       </div>
     </div>
   </div>

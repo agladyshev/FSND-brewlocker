@@ -18,52 +18,53 @@
 
 {% block body %}
 
+<header class="title-bar row" data-responsive-toggle="menu" data-hide-for="medium">
+  <div class="title-bar-title column small-10">BrewLocker</div>
+  <div class="column small-2 text-right">
+    <button class="menu-icon" type="button" data-toggle="menu"></button>
+  </div>
+</header>
 <header class="row expanded">
   <div class="row">
-    <div class="small-10 column">
+    <div class="column hide-for-small-only medium-6 large-8 top-bar">
       <a href="/"><h1>BrewLocker</h1></a>
     </div>
-    <div class="small-2 column text-right">
-      <button class="menu-icon dark hide-for-medium" type="button" data-toggle="menuBar"></button>
-    </div>
+    {% block navbar %} 
+    <nav class="top-bar column medium-6 large-4" id="menu">
+      <div class="top-bar-right">
+        <div class="row text-right">
+          {% if current_user.is_authenticated %}
+          <div class="column"><p class="label">Logged as {{ current_user.username }}</p></div>
+          <div class="column">
+            <div class="small button-group expanded">
+              {% block menu %}
+              <a class="button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
+              {% endblock %}
+              <a class="button" href="{{url_for('auth.logout')}}">Logout</a>
+            </div>
+          </div>
+          {% else %}
+          <div class="column"><a class="button" href="{{url_for('auth.login')}}">Login</a></div>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% endblock %}
   </div>
-  <hr class="row expanded">
 </header>
-
-{% block navbar %}
-<nav id="menuBar" class="row expanded hide-for-small-only" data-toggler="hide-for-small-only">
-  <!--row is expanded to full vw to place gradient if needed-->
-  <div class="row">
-    <!--div takes 100% width, so we use row class with fixed max-width to center content-->
-    {% if current_user.is_authenticated %}
-    <div class="column large-push-9 large-3 medium-push-8 medium-4 small-push-6 small-6">
-      <ul class="vertical menu align-right">
-        <li><a href="{{url_for('main.getProfile', user_id = current_user.id)}}">{{ current_user.username }}</a></li>
-        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
-      </ul>
-      {% else %}
-      <ul class="vertical menu small-push-9 small-3 medium-push-10 medium-2 large-push-11 large-1 column align-right">
-        <li><a href="{{url_for('auth.login')}}">Login</a></li>
-      </ul>
-    </div>
-
-    {% endif %}
-  </div>
-</nav>
-{% endblock %}
 
 {% block content %}
 
-  {% for message in get_flashed_messages() %}
-  <div class="success callout" data-closable>
+{% for message in get_flashed_messages() %}
+<div class="row">
+  <div class="success callout column small-12 medium-6 large-4" data-closable>
     {{ message }}
     <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  {% endfor %}
-   
-  {% block page_content %}{% endblock %}
+</div>
+{% endfor %}
 
 {% endblock %}
 
