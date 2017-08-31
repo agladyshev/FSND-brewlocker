@@ -33,7 +33,6 @@ def newItem():
                     author=current_user._get_current_object())
         db.session.add(item)
         images = request.files.getlist("img")
-        print images
         if form.img.data:
             item.save_img(images)
         return redirect(url_for('.index'))
@@ -55,7 +54,10 @@ def editItem(item_id):
     form = ItemForm(obj=item)
     if form.validate_on_submit():
         form.populate_obj(item)
-        db.session.add(item) 
+        db.session.add(item)
+        images = request.files.getlist("img")
+        if form.img.data:
+            item.save_img(images)
         return redirect(url_for('.index'))
     return render_template('edit_item.html', item=item, form=form)
 
