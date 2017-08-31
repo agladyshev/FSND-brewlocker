@@ -2,24 +2,11 @@
 {% block title %}BrewLocker - New Item{% endblock %}
 
 {% block content %}
-<main class="row">
-  {% if form.errors %}
-  <ul class="errors">
-      {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-          {% for error in field_errors %}
-              <li>{{ form[field_name].label }}: {{ error }}</li>
-          {% endfor %}
-      {% endfor %}
-  </ul>
-  {% endif %}
-  <form method="POST" action="{{ url_for('.newItem') }}" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    <div class="column large-4 medium-4 small-12">{{ form.header.label }} {{ form.header(class="") }}</div>
-    <div class="column large-4 medium-4 small-12">{{ form.phone.label }} {{ form.phone() }}</div>
-
-    <div class="column large-3 medium-6 small-12">{{ form.body.label }} {{ form.body(size=1) }}</div>
-    <div class="column large-3 medium-6 small-12">{{ form.img.label }} {{ form.img(multiple="", class="button") }}</div>
-    <div class="column">{{ form.submit(class="button small") }}</div>
-  </form>
+<main class="row column">
+  <div class="row">
+    <form class="column" method="POST" action="{{ url_for('.newItem') }}" enctype="multipart/form-data">
+    {% include '_item_form.html' %}
+    </form>
+  </div>
 </main>
 {% endblock %}

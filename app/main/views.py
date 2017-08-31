@@ -70,6 +70,16 @@ def deleteItem(item_id):
     return redirect(url_for('.index'))
 
 
+@main.route('/<int:item_id>/delete/<int:image_id>', methods=['POST'])
+@login_required
+def deleteImage(item_id, image_id):
+    item = Item.query.get_or_404(item_id)
+    image = Item.images.get_or_404(image_id)
+    if current_user != image.author:
+        abort(403)
+    db.session.delete(image)
+
+
 @main.route('/user/<int:user_id>', methods=['GET'])
 @login_required
 def getProfile(user_id):

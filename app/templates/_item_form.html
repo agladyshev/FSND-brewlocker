@@ -1,0 +1,32 @@
+{{ form.csrf_token }}
+<div class="row">
+  <div class="column large-4 medium-4 small-12">
+    {{ form.header.label }}
+    {% if form.header.errors %}
+    <p class="alert label">{% for error in form.header.errors %}{{ error }}{% endfor %}</p>
+    {% endif %}
+    {{ form.header(class="") }}
+  </div>
+</div>
+<div class="row">
+  <div class="column large-4 medium-4 small-12 end">
+    {{ form.phone.label }}
+    {% if form.phone.errors %}
+    <p class="alert label">{% for error in form.phone.errors %}{{ error }}{% endfor %}</p>
+    {% endif %}
+    {{ form.phone() }}
+  </div>
+</div>
+<div class="row">
+  <div class="column large-8 medium-8 small-12">
+    {{ form.body.label }}
+    {% if form.body.errors %}
+    <p class="alert label">{% for error in form.body.errors %}{{ error }}{% endfor %}</p>
+    {% endif %}
+    {{ form.body(size=1) }}
+  </div>
+</div>
+<div class="row text-right">
+  <div class="column">{{ form.img.label(class="button hollow") }} {{ form.img(multiple="", class="show-for-sr") }}</div>
+  <div class="column">{{ form.submit(class="button") }}</div>
+</div>
