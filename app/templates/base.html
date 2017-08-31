@@ -38,7 +38,12 @@
           <div class="column">
             <div class="small button-group expanded">
               {% block menu %}
-              <a class="button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
+              {% if request.url_rule.endpoint != "main.index" %}
+              <a class="button" href="{{url_for('.index')}}">All items</a>
+              {% endif %}
+              {% if request.url_rule.endpoint != "main.getProfile" %}
+              <a class="button" href="{{url_for('.getProfile', user_id = current_user.id)}}">Your items</a>
+              {% endif %}
               {% endblock %}
               <a class="button" href="{{url_for('auth.logout')}}">Logout</a>
             </div>
