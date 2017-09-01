@@ -148,6 +148,8 @@ h1 {
     .header {
       pointer-events:none;
     }
-
+    .title-bar-title, .top-bar {
+      pointer-events: auto;
+    }
   }
   
