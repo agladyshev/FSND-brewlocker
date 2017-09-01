@@ -17,17 +17,20 @@
 {% endblock %}
 
 {% block body %}
-
-<header class="title-bar row" data-responsive-toggle="menu" data-hide-for="medium">
-  <div class="title-bar-title column small-10">BrewLocker</div>
-  <div class="column small-2 text-right">
-    <button class="menu-icon" type="button" data-toggle="menu"></button>
+<div data-sticky-container>
+  <div data-sticky data-options="stickTo:top; stickyOn:small; marginTop:0;">
+    <header class="title-bar row" data-responsive-toggle="menu" data-hide-for="medium">
+      <div class="title-bar-title column small-10">BrewLocker</div>
+      <div class="column small-2 text-right">
+        <button class="menu-icon" type="button" data-toggle="menu"></button>
+      </div>
+    </header>
   </div>
-</header>
+</div>   
 <header class="row expanded">
   <div class="row">
     <div class="column hide-for-small-only medium-6 large-8 top-bar">
-      <a href="/"><h1>BrewLocker</h1></a>
+      <a href="{{url_for('main.index')}}"><h1>BrewLocker</h1></a>
     </div>
     {% block navbar %} 
     <nav class="top-bar column medium-6 large-4" id="menu">
@@ -39,10 +42,10 @@
             <div class="small button-group expanded">
               {% block menu %}
               {% if request.url_rule.endpoint != "main.index" %}
-              <a class="button" href="{{url_for('.index')}}">All items</a>
+              <a class="button" href="{{url_for('main.index')}}">All items</a>
               {% endif %}
               {% if request.url_rule.endpoint != "main.getProfile" %}
-              <a class="button" href="{{url_for('.getProfile', user_id = current_user.id)}}">Your items</a>
+              <a class="button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
               {% endif %}
               {% endblock %}
               <a class="button" href="{{url_for('auth.logout')}}">Logout</a>
