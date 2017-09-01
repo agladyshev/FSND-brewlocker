@@ -26,42 +26,40 @@
       </div>
     </header>
     <header class="row expanded">
-      <div class="row expanded">
-        <div class="column hide-for-small-only medium-6 large-2 top-bar">
-          <a href="{{url_for('main.index')}}"><h1>BrewLocker</h1></a>
-        </div>
-        {% block navbar %} 
-        <nav class="top-bar column medium-6 large-2" id="menu">
-          <div class="top-bar-right">
-            <div class="row text-right">
-              {% if current_user.is_authenticated %}
-              <div class="column"><p class="label">{{ current_user.username }}</p></div>
-              <div class="column">
-
-                {% block menu %}
-                {% if request.url_rule.endpoint != "main.index" %}
-                <a class="small button" href="{{url_for('main.index')}}">All items</a>
-                {% endif %}
-                {% if request.url_rule.endpoint != "main.getProfile" %}
-                <a class="small button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
-                {% endif %}
-                {% endblock %}
-                <a class="small button" href="{{url_for('auth.logout')}}">Logout</a>
-
-              </div>
-              {% else %}
-              {% if request.url_rule.endpoint != "auth.login" %}
-              <div class="column"><a class="small button" href="{{url_for('auth.login')}}">Login</a></div>
-              {% else %}
-              <div class="column"><a class="small button" href="{{url_for('main.index')}}">All items</a></div>
-              
-              {% endif %}
-              {% endif %}
-            </div>
-          </div>
-        </nav>
-        {% endblock %}
+      <div class="column hide-for-small-only medium-6 large-2 top-bar">
+        <a href="{{url_for('main.index')}}"><h1>BrewLocker</h1></a>
       </div>
+      {% block navbar %} 
+      <nav class="top-bar column medium-6 large-2" id="menu">
+        <div class="top-bar-right">
+          <div class="row text-right">
+            {% if current_user.is_authenticated %}
+            <div class="column"><p class="label">{{ current_user.username }}</p></div>
+            <div class="column">
+
+              {% block menu %}
+              {% if request.url_rule.endpoint != "main.index" %}
+              <a class="small button" href="{{url_for('main.index')}}">All items</a>
+              {% endif %}
+              {% if request.url_rule.endpoint != "main.getProfile" %}
+              <a class="small button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
+              {% endif %}
+              {% endblock %}
+              <a class="small button" href="{{url_for('auth.logout')}}">Logout</a>
+
+            </div>
+            {% else %}
+            {% if request.url_rule.endpoint != "auth.login" %}
+            <div class="column"><a class="small button" href="{{url_for('auth.login')}}">Login</a></div>
+            {% else %}
+            <div class="column"><a class="small button" href="{{url_for('main.index')}}">All items</a></div>
+            
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+      {% endblock %}
     </header>
   </div>
 </div>   

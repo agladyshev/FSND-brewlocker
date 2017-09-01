@@ -43,6 +43,10 @@ h1 {
   line-height: 0.8;
 }
 
+.row {
+  margin-bottom: 1rem;
+}  
+
 .title-bar-title{
   color:#fefefe;
   }

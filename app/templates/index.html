@@ -11,17 +11,9 @@
 
 {% block content %}
 <main>
-  <div class="row text-right">
-    <div class="column medium-offset-6 large-offset-8 medium-6 large-4">
-      <div class="row">
-        <div class="column">
-        {% if not items %}
-          <p>You don't have any items yet</p>
-        {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
+  {% if not items %}
+  <div class="row column text-center">You don't have any items yet</div>
+  {% endif %}
 <!--   <div class="row column">
     <hr>
   </div> -->
