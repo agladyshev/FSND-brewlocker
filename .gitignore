@@ -43,3 +43,6 @@ venv
 
 # Uploads
 uploads
+
+# Log files
+*.log

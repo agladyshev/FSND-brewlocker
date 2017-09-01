@@ -48,7 +48,7 @@ h1 {
   }
 
 .top-bar, .top-bar ul {
-  background-color: white;
+  background-color: #fefefe;
   }
 
 .login {
@@ -114,9 +114,9 @@ h1 {
     .top-bar {
       padding-top: 1.5rem;
       }
+  
 
   }
-
   @media screen and (min-width: 64rem) {
     body {
       font-size: 20px;
@@ -125,7 +125,13 @@ h1 {
     footer {
       font-size: 16px;
     }
-    
+  }
+  @media screen and (max-width: 100rem) {
+    header {
+      background: rgba(255,255,255, 1);
+
+    }
+
 
   }
 

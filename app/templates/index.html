@@ -5,7 +5,7 @@
 {% block menu %}
 {{ super() }}
 {% if current_user.can(Permission.ADD_ITEMS) %}
-<a class="button" href='{{ url_for('main.newItem') }}'>New item</a>
+<a class="small button" href='{{ url_for('main.newItem') }}'>New item</a>
 {% endif %}
 {% endblock %}
 
@@ -19,13 +19,12 @@
           <p>You don't have any items yet</p>
         {% endif %}
         </div>
-        
       </div>
     </div>
   </div>
-  <div class="row column">
+<!--   <div class="row column">
     <hr>
-  </div>
+  </div> -->
   {% include '_items.html' %}
 </main>
 {% if pagination %}

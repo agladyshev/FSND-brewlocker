@@ -4,7 +4,9 @@
 
 {% block content %}
 
+
 <div class="row column large-4 medium-6 small-12 text-center">
+  <hr>
   <div class="row column">
     {% if current_user.is_authenticated %}  
     <h5>Hey, {{ current_user.username }}, want to <a href="{{ url_for('auth.logout') }}">logout?</a></h5>
@@ -22,3 +24,4 @@
 
 
 {% endblock %}
+s
