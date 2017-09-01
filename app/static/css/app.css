@@ -128,8 +128,6 @@ h1 {
     .no-js .title-bar {
       display: none;
     }  
-  
-
   }
   @media screen and (min-width: 64em) {
     body {
@@ -145,8 +143,11 @@ h1 {
       background: rgba(255,255,255, 1);
 
     }
-
+  }
+  @media screen and (min-width: 100em) {
+    .header {
+      pointer-events:none;
+    }
 
   }
-
   
