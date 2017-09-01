@@ -172,9 +172,5 @@ class Image(db.Model):
     def getResponsive(self, suffix):
     # returns URL of responsive version
         directory, filename = self.url.rsplit('/', 1)
-        print filename
-        print directory
         name, ext = filename.split('.', 1)
-        print name
-        print ext
         return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
