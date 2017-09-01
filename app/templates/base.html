@@ -20,47 +20,46 @@
 <div data-sticky-container>
   <div data-sticky data-options="stickTo:top; stickyOn:small; marginTop:0;">
     <header class="title-bar row" data-responsive-toggle="menu" data-hide-for="medium">
-      <div class="title-bar-title column small-10">BrewLocker</div>
+      <div class=" column small-10"><a class="title-bar-title" href="{{url_for('main.index')}}">BrewLocker</a></div>
       <div class="column small-2 text-right">
         <button class="menu-icon" type="button" data-toggle="menu"></button>
       </div>
     </header>
-  </div>
-</div>   
-<header class="row expanded">
-  <div class="row">
-    <div class="column hide-for-small-only medium-6 large-8 top-bar">
-      <a href="{{url_for('main.index')}}"><h1>BrewLocker</h1></a>
-    </div>
-    {% block navbar %} 
-    <nav class="top-bar column medium-6 large-4" id="menu">
-      <div class="top-bar-right">
-        <div class="row text-right">
-          {% if current_user.is_authenticated %}
-          <div class="column"><p class="label">Logged as {{ current_user.username }}</p></div>
-          <div class="column">
-            <div class="small button-group expanded">
-              {% block menu %}
-              {% if request.url_rule.endpoint != "main.index" %}
-              <a class="button" href="{{url_for('main.index')}}">All items</a>
+    <header class="row expanded">
+      <div class="row">
+        <div class="column hide-for-small-only medium-6 large-8 top-bar">
+          <a href="{{url_for('main.index')}}"><h1>BrewLocker</h1></a>
+        </div>
+        {% block navbar %} 
+        <nav class="top-bar column medium-6 large-4" id="menu">
+          <div class="top-bar-right">
+            <div class="row text-right">
+              {% if current_user.is_authenticated %}
+              <div class="column"><p class="label">Logged as {{ current_user.username }}</p></div>
+              <div class="column">
+                <div class="small button-group expanded">
+                  {% block menu %}
+                  {% if request.url_rule.endpoint != "main.index" %}
+                  <a class="button" href="{{url_for('main.index')}}">All items</a>
+                  {% endif %}
+                  {% if request.url_rule.endpoint != "main.getProfile" %}
+                  <a class="button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
+                  {% endif %}
+                  {% endblock %}
+                  <a class="button" href="{{url_for('auth.logout')}}">Logout</a>
+                </div>
+              </div>
+              {% else %}
+              <div class="column"><a class="button" href="{{url_for('auth.login')}}">Login</a></div>
               {% endif %}
-              {% if request.url_rule.endpoint != "main.getProfile" %}
-              <a class="button" href="{{url_for('main.getProfile', user_id = current_user.id)}}">Your items</a>
-              {% endif %}
-              {% endblock %}
-              <a class="button" href="{{url_for('auth.logout')}}">Logout</a>
             </div>
           </div>
-          {% else %}
-          <div class="column"><a class="button" href="{{url_for('auth.login')}}">Login</a></div>
-          {% endif %}
-        </div>
+        </nav>
+        {% endblock %}
       </div>
-    </nav>
-    {% endblock %}
+    </header>
   </div>
-</header>
-
+</div>   
 {% block content %}
 
 {% for message in get_flashed_messages() %}
