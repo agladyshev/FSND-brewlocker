@@ -168,3 +168,13 @@ class Image(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
     path = db.Column(db.String(), nullable=False)
     url = db.Column(db.String(), nullable=False)
+
+    def getResponsive(self, suffix):
+    # returns URL of responsive version
+        directory, filename = self.url.rsplit('/', 1)
+        print filename
+        print directory
+        name, ext = filename.split('.', 1)
+        print name
+        print ext
+        return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)

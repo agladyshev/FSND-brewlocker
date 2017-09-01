@@ -13,7 +13,19 @@
       {% for image in item.images %}
       <div class="column column-block">
         <div class="callout small" data-closable>
-          <img src="{{image.url}}" alt="Product image">
+          <picture class="orbit-image">             
+             <source
+               media="(max-width: 1023px)"
+               srcset="{{item.images.first().getResponsive("m")}} 1x,
+                       {{item.images.first().getResponsive("2x")}} 2x">
+             <source
+               media="(min-width: 1024px)"
+               srcset="{{item.images.first().getResponsive("s")}} 1x,
+                       {{item.images.first().getResponsive("m")}} 2x">
+             <img
+               src="{{item.images.first().getResponsive("m")}}"
+               alt="Product image">
+          </picture>
           <form method="POST" action="{{ url_for('.deleteImage', item_id = item.id, image_id=image.id) }}">
             <button type="submit" value="delete" class="close-button" aria-label="Delete image" type="button" data-close>
               <span aria-hidden="true">&times;</span>

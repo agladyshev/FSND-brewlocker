@@ -24,3 +24,4 @@ def timesince_filter(timestamp):
         if period:
             return "%d %s ago" % (period, singular if period == 1 else plural)
     return default
+    

@@ -9,7 +9,21 @@
       {% for image in item.images %}
       <li class="is-active orbit-slide">
         <figure class="orbit-figure">
-          <a href="{{ url_for('main.getItem', item_id = item.id)}}"><img class="orbit-image" src="{{image.url}}" alt="Product image"></a>
+          <a href="{{ url_for('main.getItem', item_id = item.id)}}">
+             <picture class="orbit-image">             
+                <source
+                  media="(max-width: 1023px)"
+                  srcset="{{image.getResponsive("m")}} 1x,
+                          {{image.getResponsive("2x")}} 2x">
+                <source
+                  media="(min-width: 1024px)"
+                  srcset="{{image.getResponsive("s")}} 1x,
+                          {{image.getResponsive("m")}} 2x">
+                <img
+                  src="{{image.getResponsive("m")}}"
+                  alt="Product image">
+             </picture>
+          </a>
         </figure>
       </li>
       {% endfor %}
@@ -18,7 +32,21 @@
 </div>
 {% elif item.images.count() == 1 %}
 <div>
-  <a href="{{ url_for('main.getItem', item_id = item.id)}}"><img src="{{item.images.first().url}}" alt="Product image"></a>
+  <a href="{{ url_for('main.getItem', item_id = item.id)}}">
+    <picture class="orbit-image">             
+       <source
+         media="(max-width: 1023px)"
+         srcset="{{item.images.first().getResponsive("m")}} 1x,
+                 {{item.images.first().getResponsive("2x")}} 2x">
+       <source
+         media="(min-width: 1024px)"
+         srcset="{{item.images.first().getResponsive("s")}} 1x,
+                 {{item.images.first().getResponsive("m")}} 2x">
+       <img
+         src="{{item.images.first().getResponsive("m")}}"
+         alt="Product image">
+    </picture>
+  </a>
 </div>
 {% else %}
 <div>
