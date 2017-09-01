@@ -2,7 +2,7 @@ from datetime import datetime
 from . import db, login_manager, images as images_set
 from flask_login import UserMixin, AnonymousUserMixin, current_user
 from flask import current_app
-import os
+import os, glob
 
 
 class Role(db.Model):
@@ -174,3 +174,12 @@ class Image(db.Model):
         directory, filename = self.url.rsplit('/', 1)
         name, ext = filename.split('.', 1)
         return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
+
+    def deleteFromServer(self):
+        directory, filename = self.path.rsplit('/', 1)
+        name, ext = filename.split('.', 1)
+        pattern = "{}/responsive/{}-*{}".format(directory, name, ext)
+        for i in glob.glob(pattern):
+            os.remove(i)
+            print "remove"
+        return os.remove(self.path)

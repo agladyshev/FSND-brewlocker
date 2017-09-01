@@ -68,6 +68,8 @@ def deleteItem(item_id):
     item = Item.query.get_or_404(item_id)
     if current_user != item.author:
         abort(403)
+    for image in item.images:
+        image.deleteFromServer()
     db.session.delete(item)
     return redirect(url_for('.index'))
 
@@ -79,6 +81,7 @@ def deleteImage(item_id, image_id):
     image = item.images.filter_by(id=image_id).first()
     if current_user != image.author:
         abort(403)
+    image.deleteFromServer()
     db.session.delete(image)
     return redirect(url_for('.editItem', item_id=item_id))
 
