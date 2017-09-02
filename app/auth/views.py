@@ -1,14 +1,15 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from oauth import OAuthSignIn
 from . import auth
 from .. import db
 from ..models import User
+from ..email import send_email
 
 
 @auth.route('/login')
 def login():
-	return render_template('auth/login.html')
+    return render_template('auth/login.html')
 
 
 @auth.route('/logout')
@@ -41,5 +42,7 @@ def oauth_callback(provider):
         user = User(provider_id=provider_id, username=username, email=email)
         db.session.add(user)
         db.session.commit()
+        send_email(current_app.config['BREWLOCKER_ADMIN'],
+                   'New User', 'mail/new_user', user=user)
     login_user(user, True)
     return redirect(url_for('main.index'))

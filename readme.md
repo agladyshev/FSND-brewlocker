@@ -46,4 +46,4 @@ To test admin privileges:
 
 
 To set up admin mail notifications:
-- Set up gmail smtp `export MAIL_USERNAME=*`, `export MAIL_PASSWORD=`
+- Set up gmail smtp `export MAIL_USERNAME=`, `export MAIL_PASSWORD=`

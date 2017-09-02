@@ -3,6 +3,9 @@ from flask import current_app, render_template
 from flask_mail import Message
 from . import mail
 
+"""
+For large amount of mail, should setup Celery
+"""
 
 def send_async_email(app, msg):
     # flask_mail requires application context to be active
@@ -11,6 +14,7 @@ def send_async_email(app, msg):
 
 
 def send_email(to, subject, template, **kwargs):
+    app = current_app._get_current_object()
     msg = Message(app.config['BREWLOCKER_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
                   sender=app.config['BREWLOCKER_MAIL_SENDER'], recipients=[to])
     msg.body = render_template(template + '.txt', **kwargs)
