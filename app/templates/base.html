@@ -36,7 +36,6 @@
             {% if current_user.is_authenticated %}
             <div class="column"><p class="label">{{ current_user.username }}</p></div>
             <div class="column">
-
               {% block menu %}
               {% if request.url_rule.endpoint != "main.index" %}
               <a class="small button" href="{{url_for('main.index')}}">All items</a>
@@ -46,14 +45,12 @@
               {% endif %}
               {% endblock %}
               <a class="small button" href="{{url_for('auth.logout')}}">Logout</a>
-
             </div>
             {% else %}
             {% if request.url_rule.endpoint != "auth.login" %}
             <div class="column"><a class="small button" href="{{url_for('auth.login')}}">Login</a></div>
             {% else %}
             <div class="column"><a class="small button" href="{{url_for('main.index')}}">All items</a></div>
-            
             {% endif %}
             {% endif %}
           </div>
@@ -62,20 +59,21 @@
       {% endblock %}
     </header>
   </div>
-</div>   
-{% block content %}
+</div>
 
+{% block content %}
 {% for message in get_flashed_messages() %}
 <div class="row">
-  <div class="success callout column small-12 medium-6 large-4" data-closable>
-    {{ message }}
-    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="column">
+    <div class="success callout column small-12 medium-6 large-4" data-closable>
+      {{ message }}
+      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
   </div>
 </div>
 {% endfor %}
-
 {% endblock %}
 
 <footer class="row text-center">

@@ -1,5 +1,5 @@
 from flask import render_template, session, redirect, url_for, current_app,\
-    request
+    request, flash
 from .. import db
 from ..models import User, Item, Permission
 from ..email import send_email
@@ -35,6 +35,7 @@ def newItem():
         images = request.files.getlist("img")
         if form.img.data:
             item.save_img(images)
+        flash('Item added')
         return redirect(url_for('.index'))
     return render_template('new_item.html', form=form)
 
@@ -58,6 +59,7 @@ def editItem(item_id):
         images = request.files.getlist("img")
         if form.img.data:
             item.save_img(images)
+        flash("Info updated")
         return redirect(url_for('.index'))
     return render_template('edit_item.html', item=item, form=form)
 
@@ -71,6 +73,7 @@ def deleteItem(item_id):
     for image in item.images:
         image.deleteFromServer()
     db.session.delete(item)
+    flash('Item deleted')
     return redirect(url_for('.index'))
 
 

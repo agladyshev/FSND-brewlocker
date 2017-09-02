@@ -10,13 +10,11 @@
 {% endblock %}
 
 {% block content %}
+{{ super() }}
 <main>
   {% if not items %}
   <div class="row column text-center">You don't have any items yet</div>
   {% endif %}
-<!--   <div class="row column">
-    <hr>
-  </div> -->
   {% include '_items.html' %}
 </main>
 {% if pagination %}
