@@ -1,39 +1,30 @@
 var gulp = require('gulp'),
     watch = require('gulp-watch'),
-    del = require('del'),
     responsive = require('gulp-responsive'),
-    runSequence = require('run-sequence');
+    exec = require('gulp-exec');
 
 
 var config = {
-      // Resize all images to 100 pixels wide and add suffix -thumbnail
       '*': [{
         width: 600,
-        rename: { suffix: '-m' },       
+        rename: { suffix: '-m' },
       }, {
         width: 300,
         rename: { suffix: '-s' },
-        
       }, {
         width: 1200,
         rename: { suffix: '-2x' },
-        
       }]
-    }
+    };
 
 
 var global = {
-      // Global configuration for all images
-      // The output quality for JPEG, WebP and TIFF output formats
       errorOnEnlargement: false,
-      quality: 70,
-      // Use progressive (interlace) scan for JPEG and PNG output
+      quality: 80,
       progressive: true,
-      // Zlib compression level of PNG output format
       compressionLevel: 6,
-      // Strip all metadata
       withMetadata: false,
-    }
+    };
 
 
 gulp.task('images', function () {
@@ -43,21 +34,32 @@ gulp.task('images', function () {
 });
 
 
-// gulp.task('clean:uploads', function () {
-//   return del([
-//     'uploads/images/img_temp/*',
-//   ]);
-// });
-
-
 gulp.task('stream', function () {
-    // Endless stream mode 
     return watch('uploads/images/*', { ignoreInitial: true })
         .pipe(responsive(config, global))
         .pipe(gulp.dest('uploads/images/responsive'));
     });
 
 
-gulp.task('build', ['images'])
+// '. env/bin/activate && python manage.py runserver'
 
-gulp.task('default', ['stream'])
+
+gulp.task('build', ['images']);
+gulp.task('default', ['stream']);
+
+
+// gulp.task('reset', function() {
+//   var options = {
+//     continueOnError: false, // default = false, true means don't emit error event 
+//     pipeStdout: false, // default = false, true means stdout is written to file.contents 
+//     customTemplatingThing: 'test' // content passed to gutil.template() 
+//   };
+//   var reportOptions = {
+//     err: true, // default = true, false means don't write err 
+//     stderr: true, // default = true, false means don't write stderr 
+//     stdout: true // default = true, false means don't write stdout 
+//   }
+//   return gulp.src('**/*')
+//     .pipe(exec('source env/bin/activate && python manage.py runserver', options))
+//     .pipe(exec.reporter(reportOptions));
+// });

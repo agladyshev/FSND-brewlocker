@@ -30,9 +30,11 @@
         </div>
         <div class="column">
           <div class="row">
+            {% if current_user.is_authenticated %}
             <div class="small-12 column">
               <button class="small button hollow ">{{item.phone}}</button>
             </div>
+            {% endif %}
             <div class="small-12 column">
               <button class="label">Published {{item.timestamp | timesince}}</button>
             <div>
