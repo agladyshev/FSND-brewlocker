@@ -37,6 +37,9 @@
             <div class="column"><p class="label">{{ current_user.username }}</p></div>
             <div class="column">
               {% block menu %}
+              {% if current_user.can(Permission.MODERATE) %}
+              <a class="small button" href="{{ url_for('main.moderate') }}">Moderate</a>
+              {% endif %}
               {% if request.url_rule.endpoint != "main.index" %}
               <a class="small button" href="{{url_for('main.index')}}">All items</a>
               {% endif %}

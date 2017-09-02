@@ -5,12 +5,14 @@
         <div class="column small-8">
           <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h3>{{item.header}}</h3></a>
         </div>
-        {% if item.author == current_user %}
         <div class="column small-4 text-right">
+          {% if item.author == current_user %}
           <a class="edit__icon fi-pencil" href='{{ url_for('main.editItem', item_id = item.id)}}'></a>
+          {% endif %}
+          {% if item.author == current_user or moderate %}
           {% include '_delete_item.html' %}
+          {% endif %}
         </div>
-        {% endif %}
       </div>
       <div class="row column text-center">
       {% include '_images.html' %}

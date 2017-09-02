@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
-{% block title %}BrewLocker{% endblock %}
+{% block title %}BrewLocker - Moderate{% endblock %}
 
 {% block menu %}
 {{ super() }}
@@ -15,11 +15,12 @@
   {% if not items %}
   <div class="row column text-center">There is no items yet</div>
   {% endif %}
+  {% set moderate = True %}
   {% include '_items.html' %}
 </main>
 {% if pagination %}
 <div class="pagination text-center row column">
-    {{ macros.pagination_widget(pagination, '.index') }}
+    {{ macros.pagination_widget(pagination, '.moderate') }}
 </div>
 {% endif %}
 {% endblock %}

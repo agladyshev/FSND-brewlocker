@@ -1,5 +1,5 @@
-from flask import render_template, session, redirect, url_for, current_app,\
-    request, flash
+from flask import render_template, session, abort, redirect,\
+    url_for, current_app, request, flash
 from .. import db
 from ..models import User, Item, Permission
 from ..email import send_email
@@ -17,16 +17,18 @@ def index():
         page, per_page=current_app.config['BREWLOCKER_POSTS_PER_PAGE'],
         error_out=False)
     items = pagination.items
-    return render_template('index.html', items=items, pagination=pagination)
+    return render_template('index.html',
+                           items=items, pagination=pagination, page=page)
 
 
 @main.route('/new', methods=['GET', 'POST'])
 @login_required
 def newItem():
     form = ItemForm()
-    if current_user.can(Permission.ADD_ITEMS) and \
-            form.validate_on_submit():
-        
+    if not current_user.can(Permission.ADD_ITEMS):
+        flash('insufficient privileges')
+        return redirect(url_for('.index'))
+    if form.validate_on_submit():
         item = Item(header=form.header.data,
                     body=form.body.data,
                     phone=form.phone.data,
@@ -68,13 +70,14 @@ def editItem(item_id):
 @login_required
 def deleteItem(item_id):
     item = Item.query.get_or_404(item_id)
-    if current_user != item.author:
+    if current_user == item.author or current_user.can(Permission.MODERATE):
+        for image in item.images:
+            image.deleteFromServer()
+        db.session.delete(item)
+        flash('Item deleted')
+        return redirect(url_for('.index'))
+    else:
         abort(403)
-    for image in item.images:
-        image.deleteFromServer()
-    db.session.delete(item)
-    flash('Item deleted')
-    return redirect(url_for('.index'))
 
 
 @main.route('/<int:item_id>/delete/<int:image_id>', methods=['POST'])
@@ -93,15 +96,22 @@ def deleteImage(item_id, image_id):
 @login_required
 def getProfile(user_id):
     page = request.args.get('page', 1, type=int)
-    pagination = Item.query.filter_by(author_id=user_id).order_by(Item.timestamp.desc()).paginate(
+    pagination = Item.query.filter_by(
+        author_id=user_id).order_by(Item.timestamp.desc()).paginate(
         page, per_page=current_app.config['BREWLOCKER_POSTS_PER_PAGE'],
         error_out=False)
     items = pagination.items
     return render_template('index.html', items=items, pagination=pagination)
 
 
-@main.route('/admin')
+@main.route('/moderate')
 @login_required
-@admin_required
-def for_admins_only():
-    return "For administrators!"
+@permission_required(Permission.MODERATE)
+def moderate():
+    page = request.args.get('page', 1, type=int)
+    pagination = Item.query.order_by(Item.timestamp.desc()).paginate(
+        page, per_page=current_app.config['BREWLOCKER_POSTS_PER_PAGE'],
+        error_out=False)
+    items = pagination.items
+    return render_template('moderate.html', items=items,
+                           pagination=pagination, page=page)
