@@ -1,0 +1,28 @@
+{
+  "name": "brewlocker",
+  "version": "1.0.0",
+  "description": "backend utilities for brewlocker project",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agladyshev/FSND-brewlocker.git"
+  },
+  "author": "Alexey Gladyshev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agladyshev/FSND-brewlocker/issues"
+  },
+  "homepage": "https://github.com/agladyshev/FSND-brewlocker#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-responsive": "^2.8.0",
+    "gulp-watch": "^4.3.11"
+  },
+  "dependencies": {}
+}
