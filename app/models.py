@@ -1,9 +1,10 @@
 from datetime import datetime
 from . import db, login_manager, images as images_set
 from flask_login import UserMixin, AnonymousUserMixin, current_user
-from flask import current_app
+from flask import current_app, url_for
 import os
 import glob
+import json
 
 
 class Role(db.Model):
@@ -138,6 +139,12 @@ class Item(db.Model):
             db.session.add(db_image)
             num += 1
 
+    def getImageList(self):
+        urls = []
+        for image in self.images:
+            urls.append(image.url)
+        return urls
+
     @staticmethod
     def generate_fake(count=100):
         from random import seed, randint
@@ -159,6 +166,16 @@ class Item(db.Model):
                           url="http://via.placeholder.com/350x350")
             db.session.add(image)
             db.session.commit()
+
+    def to_json(self):
+        json_item = {
+            'url': url_for('api.get_item', id=self.id, _external=True),
+            'header': self.header,
+            'body': self.body,
+            'timestamp': self.timestamp,
+            'images': self.getImageList()
+        }
+        return json_item
 
 
 class Image(db.Model):
