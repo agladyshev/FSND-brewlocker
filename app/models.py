@@ -220,7 +220,9 @@ class Image(db.Model):
             return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
 
     def deleteFromServer(self):
-        if not self.cloudinary_id and self.path:
+        if self.cloudinary_id:
+            uploader.destroy(self.cloudinary_id)
+        elif self.path:
             directory, filename = self.path.rsplit('/', 1)
             name, ext = filename.split('.', 1)
             pattern = "{}/responsive/{}-*{}".format(directory, name, ext)
