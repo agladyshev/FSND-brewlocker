@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('author_id', sa.Integer(), nullable=True),
     sa.Column('item_id', sa.Integer(), nullable=True),
-    sa.Column('path', sa.String(), nullable=False),
+    sa.Column('path', sa.String(), nullable=True),
     sa.Column('url', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['item_id'], ['items.id'], ),
