@@ -212,7 +212,7 @@ class Image(db.Model):
         # returns URL of responsive version
         if self.cloudinary_id:
             resp_url = utils.cloudinary_url(
-                self.cloudinary_id, width=suffix)[0]
+                self.cloudinary_id, width=suffix, height=suffix, background="white", crop="pad")[0]
             return resp_url
         elif self.path:
             directory, filename = self.url.rsplit('/', 1)
