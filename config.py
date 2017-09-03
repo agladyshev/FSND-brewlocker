@@ -20,16 +20,16 @@ class Config:
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     OAUTH_CREDENTIALS = {
         'facebook': {
-            'id': '1849498792045942',
-            'secret': 'd81f26d702a5173727066a0928e5f752'
+            'id': os.environ.get('FACEBOOK_ID'),
+            'secret': os.environ.get('FACEBOOK_SECRET')
         },
         'github': {
-            'id': '88ce38d7ff8024328136',
-            'secret': 'ef273943075636518d281268703d8ef8f54e9f9e'
+            'id': os.environ.get('GITHUB_ID'),
+            'secret': os.environ.get('GITHUB_SECRET')
         },
         'google': {
-            'id': '433026741879-pji3tinhbp21el6tnv6b0u4btmnijr3q.apps.googleusercontent.com',
-            'secret': 'bMi4fF_05yRr0DfSIeFbpk7p'
+            'id': os.environ.get('GOOGLE_ID'),
+            'secret': os.environ.get('GOOGLE_SECRET')
         }
     }
     BREWLOCKER_POSTS_PER_PAGE = 18
