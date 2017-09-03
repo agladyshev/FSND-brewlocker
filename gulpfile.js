@@ -6,13 +6,13 @@ var gulp = require('gulp'),
 var config = {
       '*': [{
         width: 600,
-        rename: { suffix: '-m' },
+        rename: { suffix: '-600' },
       }, {
         width: 300,
-        rename: { suffix: '-s' },
+        rename: { suffix: '-300' },
       }, {
         width: 1200,
-        rename: { suffix: '-2x' },
+        rename: { suffix: '-1200' },
       }]
     };
 

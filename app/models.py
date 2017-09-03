@@ -6,6 +6,7 @@ from flask import current_app, url_for, flash
 import os
 import glob
 import json
+from cloudinary import utils, uploader
 
 
 class Role(db.Model):
@@ -124,7 +125,17 @@ class Item(db.Model):
     images = db.relationship('Image', backref='item', lazy='dynamic')
 
     def save_img(self, images):
-        if current_app.config['S3_ENABLE']:
+        if current_app.config['CLOUDINARY']:
+            for image in images:
+                cloudinary_image = uploader.upload(image)
+                db_image = Image(author=current_user._get_current_object(),
+                                 item=self,
+                                 url=cloudinary_image["secure_url"],
+                                 cloudinary_id=cloudinary_image["public_id"])
+                db.session.add(db_image)
+            flash("Upload successfull")
+            return
+        elif current_app.config['S3_ENABLE']:
             for image in images:
                 url = uploadToS3(image, current_app.config['S3_BUCKET'])
                 db_image = Image(author=current_user._get_current_object(),
@@ -132,6 +143,7 @@ class Item(db.Model):
                                  url=url)
                 db.session.add(db_image)
             flash("Upload successfull")
+            return
         else:
             try:
                 num = self.images.count() + 1
@@ -148,6 +160,7 @@ class Item(db.Model):
                                  url=url)
                 db.session.add(db_image)
                 num += 1
+            return
 
     def getImageList(self):
         urls = []
@@ -193,21 +206,28 @@ class Image(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
     path = db.Column(db.String(), nullable=True)
     url = db.Column(db.String(), nullable=False)
+    cloudinary_id = db.Column(db.String(), nullable=True)
 
     def getResponsive(self, suffix):
         # returns URL of responsive version
-        directory, filename = self.url.rsplit('/', 1)
-        name, ext = filename.split('.', 1)
-        return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
+        if self.cloudinary_id:
+            resp_url = utils.cloudinary_url(
+                self.cloudinary_id, width=suffix)[0]
+            return resp_url
+        else:
+            directory, filename = self.url.rsplit('/', 1)
+            name, ext = filename.split('.', 1)
+            return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
 
     def deleteFromServer(self):
-        directory, filename = self.path.rsplit('/', 1)
-        name, ext = filename.split('.', 1)
-        pattern = "{}/responsive/{}-*{}".format(directory, name, ext)
-        try:
-            for i in glob.glob(pattern):
-                os.remove(i)
-            os.remove(self.path)
-            return
-        except:
-            return
+        if not self.cloudinary_id and self.path:
+            directory, filename = self.path.rsplit('/', 1)
+            name, ext = filename.split('.', 1)
+            pattern = "{}/responsive/{}-*{}".format(directory, name, ext)
+            try:
+                for i in glob.glob(pattern):
+                    os.remove(i)
+                os.remove(self.path)
+                return
+            except:
+                return

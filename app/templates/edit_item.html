@@ -16,14 +16,14 @@
           <picture class="orbit-image">             
              <source
                media="(max-width: 1023px)"
-               srcset="{{item.images.first().getResponsive("m")}} 1x,
-                       {{item.images.first().getResponsive("2x")}} 2x">
+               data-srcset="{{item.images.first().getResponsive("600")}} 1x,
+                       {{item.images.first().getResponsive("1200")}} 2x">
              <source
                media="(min-width: 1024px)"
-               srcset="{{item.images.first().getResponsive("s")}} 1x,
-                       {{item.images.first().getResponsive("m")}} 2x">
+               data-srcset="{{item.images.first().getResponsive("300")}} 1x,
+                       {{item.images.first().getResponsive("600")}} 2x">
              <img
-               src="{{item.images.first().getResponsive("m")}}"
+               src="{{item.images.first().getResponsive("600")}}"
                alt="Product image">
           </picture>
           <form method="POST" action="{{ url_for('.deleteImage', item_id = item.id, image_id=image.id) }}">
@@ -31,7 +31,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> 
-          </form>   
+          </form>
         </div>
       </div>
       {% endfor %}

@@ -50,3 +50,6 @@ uploads
 # Node
 node_modules/
 package-lock.json
+
+# Environment valuables
+.env

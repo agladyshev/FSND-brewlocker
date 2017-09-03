@@ -6,6 +6,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SSL_DISABLE = False
     S3_ENABLE = False
+    CLOUDINARY = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -34,8 +35,8 @@ class Config:
         }
     }
 
-
     BREWLOCKER_POSTS_PER_PAGE = 18
+
     @staticmethod
     # configuration-specific initialization
     def init_app(app):
@@ -84,12 +85,15 @@ class ProductionConfig(Config):
 
 
 class HerokuConfig(ProductionConfig):
-    S3_ENABLE = True
+
     SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
-    S3_BUCKET=os.environ.get("S3_BUCKET_NAME")
-    S3_LOCATION='http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-    AWS_ACCESS_KEY_ID=os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY=os.environ.get("AWS_SECRET_ACCESS_KEY")
+    S3_ENABLE = False
+    S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
+    S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    CLOUDINARY = True
+    CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
     @classmethod
     def init_app(cls, app):

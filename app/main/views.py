@@ -70,8 +70,10 @@ def editItem(item_id):
 def deleteItem(item_id):
     item = Item.query.get_or_404(item_id)
     if current_user == item.author or current_user.can(Permission.MODERATE):
-        for image in item.images:
-            image.deleteFromServer()
+        if item.images:
+            for image in item.images:
+                image.deleteFromServer()
+                db.session.delete(image)
         db.session.delete(item)
         flash('Item deleted')
         return redirect(url_for('.index'))
@@ -84,6 +86,8 @@ def deleteItem(item_id):
 def deleteImage(item_id, image_id):
     item = Item.query.get_or_404(item_id)
     image = item.images.filter_by(id=image_id).first()
+    if not image:
+        abort(404)
     if current_user != image.author:
         abort(403)
     image.deleteFromServer()
