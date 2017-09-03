@@ -15,19 +15,16 @@ The application is built on flask framework and use:
 
 
 To deploy locally:
+- Install [Node.js](https://nodejs.org/en/download/), [npm](https://docs.npmjs.com/getting-started/installing-node) and Gulp `npm install gulp-cli -g`
 - Clone repository
 - Open Terminal in the project directory
 - Create virtual environment `virtualenv venv`
 - Activate virtual environment `source venv/bin/activate`
 - Install dependencies `pip install -r requirements/dev.txt
-- Install [Node.js](https://nodejs.org/en/download/), [npm](https://docs.npmjs.com/getting-started/installing-node) and [Gulp](https://gulpjs.com/)
+- Run `python manage.py deploy` to prepare flask app
 - Run `npm install --save-dev` to resolve dependencies
-- Run `gulp build` to prepare the project
-<!-- - Create database `python manage.py db upgrade`
-- Activate shell `python manage.py shell`
-- Insert user roles `Role.insert_roles()` -->
 - Run `gulp default` to start background tasks
-- Run server `python manage.py runserver`
+- Run server `python manage.py runserver` on localhost:5000
 
 
 To run tests:

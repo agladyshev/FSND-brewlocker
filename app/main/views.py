@@ -6,7 +6,6 @@ from ..email import send_email
 from . import main
 from .forms import ItemForm
 from ..decorators import admin_required, permission_required
-from ..filters import timesince_filter
 from flask_login import login_required, current_user
 
 

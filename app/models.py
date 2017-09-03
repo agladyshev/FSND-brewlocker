@@ -149,10 +149,8 @@ class Item(db.Model):
     def generate_fake(count=100):
         from random import seed, randint
         import forgery_py
-
         seed()
         user_count = User.query.count()
-        print user_count
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
             p = Item(header=forgery_py.lorem_ipsum.word(),
@@ -160,7 +158,6 @@ class Item(db.Model):
                      timestamp=forgery_py.date.date(True),
                      author=u,
                      phone=forgery_py.address.phone())
-            print p.header, p.body, p.timestamp, p.author_id, p.phone
             db.session.add(p)
             image = Image(author=u, item=p, path='test',
                           url="http://via.placeholder.com/350x350")
