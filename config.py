@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SSL_DISABLE = False
+    S3_ENABLE = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -83,6 +84,7 @@ class ProductionConfig(Config):
 
 
 class HerokuConfig(ProductionConfig):
+    S3_ENABLE = True
     SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
     S3_BUCKET=os.environ.get("S3_BUCKET_NAME")
     S3_LOCATION='http://{}.s3.amazonaws.com/'.format(S3_BUCKET)

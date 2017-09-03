@@ -2,7 +2,7 @@ from datetime import datetime
 from . import db, login_manager, images as images_set
 from .helpers import uploadToS3
 from flask_login import UserMixin, AnonymousUserMixin, current_user
-from flask import current_app, url_for
+from flask import current_app, url_for, flash
 import os
 import glob
 import json
@@ -124,28 +124,30 @@ class Item(db.Model):
     images = db.relationship('Image', backref='item', lazy='dynamic')
 
     def save_img(self, images):
-        if current_app.config == 'heroku':
+        if current_app.config['S3_ENABLE']:
             for image in images:
                 url = uploadToS3(image, current_app.config['S3_BUCKET'])
                 db_image = Image(author=current_user._get_current_object(),
                                  item=self,
                                  url=url)
                 db.session.add(db_image)
-        try:
-            num = self.images.count() + 1
-        except:
-            num = 1
-        for image in images:
-            new_image = images_set.save(
-                image, name='{}_{}.'.format(str(self.id), str(num)))
-            url = images_set.url(new_image)
-            path = images_set.path(new_image)
-            db_image = Image(author=current_user._get_current_object(),
-                             item=self,
-                             path=path,
-                             url=url)
-            db.session.add(db_image)
-            num += 1
+            flash("Upload successfull")
+        else:
+            try:
+                num = self.images.count() + 1
+            except:
+                num = 1
+            for image in images:
+                new_image = images_set.save(
+                    image, name='{}_{}.'.format(str(self.id), str(num)))
+                url = images_set.url(new_image)
+                path = images_set.path(new_image)
+                db_image = Image(author=current_user._get_current_object(),
+                                 item=self,
+                                 path=path,
+                                 url=url)
+                db.session.add(db_image)
+                num += 1
 
     def getImageList(self):
         urls = []
