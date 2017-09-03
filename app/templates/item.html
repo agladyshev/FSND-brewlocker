@@ -11,7 +11,7 @@
     {% if item.author == current_user or moderate %}
     <div class="column small-4 text-right">
       <a class="edit__icon fi-pencil" href='{{ url_for('main.editItem', item_id = item.id)}}'></a>
-      <a class="fi-x remove__icon" href='{{ url_for('main.deleteItem', item_id = item.id)}}'></a>
+      {% include '_delete_item.html' %}
     </div>
     {% endif %}
   </div>

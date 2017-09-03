@@ -8,7 +8,7 @@
     <div class="column">
       <form method="POST" action="{{ url_for('.deleteItem', item_id = item.id) }}">
         <button type="submit" value="delete" class="alert button">Yes, delete</button>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />    
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       </form> 
     </div>
     <div class="column"> 
