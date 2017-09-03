@@ -20,7 +20,7 @@
                   srcset="{{image.getResponsive("s")}} 1x,
                           {{image.getResponsive("m")}} 2x">
                 <img
-                  src="{{image.getResponsive("m")}}"
+                  src="{{image.url}}"
                   alt="Product image">
              </picture>
           </a>
@@ -43,7 +43,7 @@
          srcset="{{item.images.first().getResponsive("s")}} 1x,
                  {{item.images.first().getResponsive("m")}} 2x">
        <img
-         src="{{item.images.first().getResponsive("m")}}"
+         src="{{item.images.first().url}}"
          alt="Product image">
     </picture>
   </a>

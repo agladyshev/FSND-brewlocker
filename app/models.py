@@ -1,5 +1,6 @@
 from datetime import datetime
 from . import db, login_manager, images as images_set
+from .helpers import uploadToS3
 from flask_login import UserMixin, AnonymousUserMixin, current_user
 from flask import current_app, url_for
 import os
@@ -123,6 +124,13 @@ class Item(db.Model):
     images = db.relationship('Image', backref='item', lazy='dynamic')
 
     def save_img(self, images):
+        if current_app.config == 'heroku':
+            for image in images:
+                url = uploadToS3(image, current_app.config['S3_BUCKET'])
+                db_image = Image(author=current_user._get_current_object(),
+                                 item=self,
+                                 url=url)
+                db.session.add(db_image)
         try:
             num = self.images.count() + 1
         except:
@@ -181,7 +189,7 @@ class Image(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
-    path = db.Column(db.String(), nullable=False)
+    path = db.Column(db.String(), nullable=True)
     url = db.Column(db.String(), nullable=False)
 
     def getResponsive(self, suffix):

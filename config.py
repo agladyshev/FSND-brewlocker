@@ -32,6 +32,8 @@ class Config:
             'secret': os.environ.get('GOOGLE_SECRET')
         }
     }
+
+
     BREWLOCKER_POSTS_PER_PAGE = 18
     @staticmethod
     # configuration-specific initialization
@@ -82,6 +84,10 @@ class ProductionConfig(Config):
 
 class HerokuConfig(ProductionConfig):
     SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
+    S3_BUCKET=os.environ.get("S3_BUCKET_NAME")
+    S3_LOCATION='http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    AWS_ACCESS_KEY_ID=os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY=os.environ.get("AWS_SECRET_ACCESS_KEY")
 
     @classmethod
     def init_app(cls, app):

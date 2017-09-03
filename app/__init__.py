@@ -4,26 +4,33 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
+import boto3
+import botocore
 from flask_uploads import UploadSet, IMAGES, configure_uploads
+
 from config import config
+
 
 # import extensions
 moment = Moment()
 db = SQLAlchemy()
 mail = Mail()
 csrf = CSRFProtect()
-
-images = UploadSet('images', IMAGES)
+s3 = boto3.client('s3')
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 
+
+images = UploadSet('images', IMAGES)
+
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    
+
     # initialize extensions
     mail.init_app(app)
     moment.init_app(app)
@@ -34,7 +41,7 @@ def create_app(config_name):
     if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
         from flask_sslify import SSLify
         sslify = SSLify(app)
-    
+
     configure_uploads(app, (images))
 
     from .main import main as main_blueprint
