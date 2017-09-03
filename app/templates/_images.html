@@ -13,11 +13,11 @@
             <picture class="orbit-image">             
               <source
                 media="(max-width: 1023px)"
-                data-srcset="{{image.getResponsive("600")}} 1x,
+                srcset="{{image.getResponsive("600")}} 1x,
                         {{image.getResponsive("1200")}} 2x">
               <source
                 media="(min-width: 1024px)"
-                data-srcset="{{image.getResponsive("300")}} 1x,
+                srcset="{{image.getResponsive("300")}} 1x,
                         {{image.getResponsive("600")}} 2x">
               <img
                 src="{{image.getResponsive("600")}}"
@@ -36,11 +36,11 @@
     <picture class="orbit-image">             
       <source
         media="(max-width: 1023px)"
-        data-srcset="{{item.images.first().getResponsive("600")}} 1x,
+        srcset="{{item.images.first().getResponsive("600")}} 1x,
                 {{item.images.first().getResponsive("1200")}} 2x">
       <source
         media="(min-width: 1024px)"
-        data-srcset="{{item.images.first().getResponsive("300")}} 1x,
+        srcset="{{item.images.first().getResponsive("300")}} 1x,
                 {{item.images.first().getResponsive("600")}} 2x">
       <img
         src="{{item.images.first().getResponsive("600")}}"

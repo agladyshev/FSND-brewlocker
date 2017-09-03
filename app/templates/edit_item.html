@@ -14,17 +14,17 @@
       <div class="column column-block">
         <div class="callout small" data-closable>
           <picture class="orbit-image">             
-             <source
-               media="(max-width: 1023px)"
-               data-srcset="{{item.images.first().getResponsive("600")}} 1x,
-                       {{item.images.first().getResponsive("1200")}} 2x">
-             <source
-               media="(min-width: 1024px)"
-               data-srcset="{{item.images.first().getResponsive("300")}} 1x,
-                       {{item.images.first().getResponsive("600")}} 2x">
-             <img
-               src="{{item.images.first().getResponsive("600")}}"
-               alt="Product image">
+            <source
+              media="(max-width: 1023px)"
+              srcset="{{item.images.first().getResponsive("600")}} 1x,
+                     {{item.images.first().getResponsive("1200")}} 2x">
+            <source
+              media="(min-width: 1024px)"
+              srcset="{{item.images.first().getResponsive("300")}} 1x,
+                     {{item.images.first().getResponsive("600")}} 2x">
+            <img
+              src="{{item.images.first().getResponsive("600")}}"
+              alt="Product image">
           </picture>
           <form method="POST" action="{{ url_for('.deleteImage', item_id = item.id, image_id=image.id) }}">
             <button type="submit" value="delete" class="close-button" aria-label="Delete image" type="button" data-close>
