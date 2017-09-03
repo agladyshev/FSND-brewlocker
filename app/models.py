@@ -125,26 +125,12 @@ class Item(db.Model):
     images = db.relationship('Image', backref='item', lazy='dynamic')
 
     def save_img(self, images):
-        if current_app.config['CLOUDINARY']:
-            for image in images:
-                cloudinary_image = uploader.upload(image)
-                db_image = Image(author=current_user._get_current_object(),
-                                 item=self,
-                                 url=cloudinary_image["secure_url"],
-                                 cloudinary_id=cloudinary_image["public_id"])
-                db.session.add(db_image)
-            flash("Upload successfull")
-            return
-        elif current_app.config['S3_ENABLE']:
-            for image in images:
-                url = uploadToS3(image, current_app.config['S3_BUCKET'])
-                db_image = Image(author=current_user._get_current_object(),
-                                 item=self,
-                                 url=url)
-                db.session.add(db_image)
-            flash("Upload successfull")
-            return
-        else:
+        """
+        If not a cloud version, save images locally,
+        otherwise try to upload to cloudinary,
+        upload to S3 in case of failure
+        """
+        if not current_app.config['CLOUDINARY']:
             try:
                 num = self.images.count() + 1
             except:
@@ -160,6 +146,20 @@ class Item(db.Model):
                                  url=url)
                 db.session.add(db_image)
                 num += 1
+            return
+        for image in images: 
+            try:
+                cloudinary_image = uploader.upload(image)
+                db_image = Image(author=current_user._get_current_object(),
+                                 item=self,
+                                 url=cloudinary_image["secure_url"],
+                                 cloudinary_id=cloudinary_image["public_id"])
+            except:
+                url = uploadToS3(image, current_app.config['S3_BUCKET'])
+                db_image = Image(author=current_user._get_current_object(),
+                                 item=self,
+                                 url=url)
+            db.session.add(db_image)
             return
 
     def getImageList(self):
@@ -214,10 +214,12 @@ class Image(db.Model):
             resp_url = utils.cloudinary_url(
                 self.cloudinary_id, width=suffix)[0]
             return resp_url
-        else:
+        elif self.path:
             directory, filename = self.url.rsplit('/', 1)
             name, ext = filename.split('.', 1)
             return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
+        else: 
+            return self.url
 
     def deleteFromServer(self):
         if self.cloudinary_id:
