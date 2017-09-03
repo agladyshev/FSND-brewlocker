@@ -31,6 +31,9 @@ def create_app(config_name):
     login_manager.init_app(app)
     csrf.init_app(app)
 
+    if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
     
     configure_uploads(app, (images))
 
