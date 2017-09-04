@@ -5,7 +5,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SSL_DISABLE = False
-    S3_ENABLE = False
     CLOUDINARY = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -20,6 +19,7 @@ class Config:
     UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'uploads')
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    BREWLOCKER_POSTS_PER_PAGE = 18
     OAUTH_CREDENTIALS = {
         'facebook': {
             'id': os.environ.get('FACEBOOK_ID'),
@@ -34,8 +34,6 @@ class Config:
             'secret': os.environ.get('GOOGLE_SECRET')
         }
     }
-
-    BREWLOCKER_POSTS_PER_PAGE = 18
 
     @staticmethod
     # configuration-specific initialization
@@ -87,7 +85,6 @@ class ProductionConfig(Config):
 class HerokuConfig(ProductionConfig):
 
     SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
-    S3_ENABLE = False
     S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")

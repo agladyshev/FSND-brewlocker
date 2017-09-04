@@ -2,6 +2,10 @@ from flask import jsonify
 from app.exceptions import ValidationError
 from . import api
 
+"""
+For api requests app should send json error responses
+"""
+
 
 def bad_request(message):
     response = jsonify({'error': 'bad request', 'message': message})

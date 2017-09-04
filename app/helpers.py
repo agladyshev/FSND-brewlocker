@@ -3,6 +3,7 @@ from . import s3
 
 
 def uploadToS3(file, bucket_name, acl="public-read"):
+    # backup upload method
     try:
         s3.upload_fileobj(
             file,

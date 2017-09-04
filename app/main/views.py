@@ -25,7 +25,7 @@ def index():
 def newItem():
     form = ItemForm()
     if not current_user.can(Permission.ADD_ITEMS):
-        flash('insufficient privileges')
+        flash('Insufficient privileges')
         return redirect(url_for('.index'))
     if form.validate_on_submit():
         item = Item(header=form.header.data,
@@ -33,6 +33,7 @@ def newItem():
                     phone=form.phone.data,
                     author=current_user._get_current_object())
         db.session.add(item)
+        # if images are uploaded, we pipe them to model method for saving
         images = request.files.getlist("img")
         if form.img.data:
             item.save_img(images)
@@ -98,6 +99,7 @@ def deleteImage(item_id, image_id):
 @main.route('/user/<int:user_id>', methods=['GET'])
 @login_required
 def getProfile(user_id):
+    # displays all the items created by user
     page = request.args.get('page', 1, type=int)
     pagination = Item.query.filter_by(
         author_id=user_id).order_by(Item.timestamp.desc()).paginate(

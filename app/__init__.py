@@ -27,7 +27,9 @@ images = UploadSet('images', IMAGES)
 
 
 def create_app(config_name):
+    # create app
     app = Flask(__name__)
+    # configure app
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
@@ -38,10 +40,12 @@ def create_app(config_name):
     login_manager.init_app(app)
     csrf.init_app(app)
 
+    # provide https support
     if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
         from flask_sslify import SSLify
         sslify = SSLify(app)
 
+    # set up local storage
     configure_uploads(app, (images))
 
     from .main import main as main_blueprint

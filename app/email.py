@@ -7,6 +7,7 @@ from . import mail
 For large amount of mail, should setup Celery
 """
 
+
 def send_async_email(app, msg):
     # flask_mail requires application context to be active
     with app.app_context():

@@ -2,9 +2,9 @@ body, h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather', serif;
 }
 
-nav {
+/*nav {
   padding-bottom: 0.5rem;
-}
+}*/
 
 footer {
   padding-bottom: 2rem;
@@ -14,9 +14,9 @@ a {
   color: black;
 }
 
-h1 {
+/*h1 {
   line-height: 0.8;
-}
+}*/
 
 .row {
   margin-bottom: 1rem;
@@ -30,53 +30,15 @@ h1 {
   background-color: #fefefe;
   }
 
-.login {
-  max-width: 20rem;
-  background-color: white;
-  padding: 2rem;
-  -moz-border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  border-radius: 0.5rem; /* future proofing */
-  -khtml-border-radius: 0.5rem; /* for old Konqueror browsers */
-}
-
-.signup {
-  max-width: 20rem;
-  background-color: white;
-  padding: 2rem;
-  -moz-border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  border-radius: 0.5rem; /* future proofing */
-  -khtml-border-radius: 0.5rem; /* for old Konqueror browsers */
-}
-
-.login__input, .signup__input {
-  max-width: 12rem;
-}
-
-.post__header {
-  padding-top: 1rem;
-  background-image: linear-gradient(#ededed, white);
-}
-
-.post__comments {
-  padding-bottom: 1rem;
-  background-image: linear-gradient(white, #ededed);
-}
-
-.comment__discard, .comment__commit, .comment__editarea {
-  display: none;
-}
-
 .edit__icon, .remove__icon, .info__icon {
   padding: 0.4rem;
   margin: 0.1rem;
 }
 
-.edit__discard, .edit__delete {
+/*.edit__discard, .edit__delete {
   padding: 1rem;
 }
-
+*/
 .link-hover:hover .icon-hover {
   fill: #2ba6cb ;
   /*change the color of svg path in icon on mouse hover*/
@@ -104,15 +66,11 @@ h1 {
       display: none;
     }  
   }
-/*  @media screen and (min-width: 64em) {
-    body {
-      font-size: 20px;
-    }
 
-    footer {
-      font-size: 16px;
-    }
-  }*/
+/*I have used rgba to play with opacity:
+if the screen is wide enough, item elements
+will slide under the header but be visible*/
+
   @media screen and (max-width: 100em) {
     header {
       background: rgba(255,255,255, 1);

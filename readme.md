@@ -1,6 +1,7 @@
-BrewLocker is a bulletin board made for barista for  exchanging barista tools and accessories.
+# [BrewLocker](https://brewlocker.herokuapp.com/)
+**BrewLocker is a bulletin board made for barista for exchanging barista tools and accessories.**
 A user can log in with his Facebook, Google or GitHub accounts: the app doesn't store passwords or other sensitive information. Both authorised and unauthorised can view the list of all items on the main page and the item page with full description, but only authorized user can access author's contact info. 
-Logged in user can also create new items on board and upload photos of them. He can later edit and delete created items, add new or delete existing photos from the item page.
+Logged in user can also create new items on board and upload photos of them. The user can later edit and delete created items, add new or delete existing photos from the item page.
 
 
 The application is built on flask framework and use:
@@ -12,6 +13,9 @@ The application is built on flask framework and use:
 - Flask-Upload to manage uploaded images
 - Gulp.js to run background tasks such as resizing and compression for uploaded images
 - Foundation to create grid system and interface elements
+
+
+BrewLocker is deployed on Heroku and can upload images to Cloudinary or AWS S3.
 
 
 To deploy locally:
@@ -27,8 +31,14 @@ To deploy locally:
 - Run server `python manage.py runserver` on localhost:5000
 
 
-To run tests:
-- Execute `python manage.py test`
+Paths of JSON endpoints:
+- /api/v1.0/items
+- /api/v1.0/item/<int:id>
+
+
+To check oauth2 login locally:
+- Get credentials from Facebook, GitHub or Google
+- Add keys to environment `export PROVIDER_ID=*` and `export PROVIDER_SECRET=*`
 
 
 To generate fake data:

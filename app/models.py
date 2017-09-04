@@ -1,12 +1,12 @@
-from datetime import datetime
-from . import db, login_manager, images as images_set
-from .helpers import uploadToS3
-from flask_login import UserMixin, AnonymousUserMixin, current_user
-from flask import current_app, url_for, flash
 import os
 import glob
 import json
+from flask import current_app, url_for, flash
+from flask_login import UserMixin, AnonymousUserMixin, current_user
+from datetime import datetime
 from cloudinary import utils, uploader
+from . import db, login_manager, images as images_set
+from .helpers import uploadToS3
 
 
 class Role(db.Model):
@@ -72,7 +72,8 @@ class User(UserMixin, db.Model):
         for i in range(count):
             u = User(email=forgery_py.internet.email_address(),
                      username=forgery_py.internet.user_name(True),
-                     provider_id='facebook${}'.format(forgery_py.russian_tax.ogrn()))
+                     provider_id='facebook${}'.format(
+                forgery_py.russian_tax.ogrn()))
             db.session.add(u)
             try:
                 db.session.commit()
@@ -89,6 +90,7 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
+            # if new user emais = admin email, set up admin permissions
             if self.email == current_app.config['BREWLOCKER_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
             if self.role is None:
@@ -126,11 +128,12 @@ class Item(db.Model):
 
     def save_img(self, images):
         """
-        If not a cloud version, save images locally,
+        If cloud is not set up, save images locally,
         otherwise try to upload to cloudinary,
         upload to S3 in case of failure
         """
         if not current_app.config['CLOUDINARY']:
+            # for local storage app creates new filename
             try:
                 num = self.images.count() + 1
             except:
@@ -147,7 +150,7 @@ class Item(db.Model):
                 db.session.add(db_image)
                 num += 1
             return
-        for image in images: 
+        for image in images:
             try:
                 cloudinary_image = uploader.upload(image)
                 db_image = Image(author=current_user._get_current_object(),
@@ -182,9 +185,10 @@ class Item(db.Model):
                      author=u,
                      phone=forgery_py.address.phone())
             db.session.add(p)
-            image = Image(author=u, item=p, path='test',
-                          url="http://via.placeholder.com/350x350")
-            db.session.add(image)
+            for i in range(5):
+                image = Image(author=u, item=p,
+                              url="http://via.placeholder.com/600x600")
+                db.session.add(image)
             db.session.commit()
 
     def to_json(self):
@@ -209,23 +213,25 @@ class Image(db.Model):
     cloudinary_id = db.Column(db.String(), nullable=True)
 
     def getResponsive(self, suffix):
-        # returns URL of responsive version
+        # returns URL of resized version if available
         if self.cloudinary_id:
             resp_url = utils.cloudinary_url(
-                # self.cloudinary_id, width=suffix, height=suffix, background="white", crop="pad")[0]
+                # self.cloudinary_id, width=suffix, height=suffix,
+                # background="white", crop="pad")[0]
                 self.cloudinary_id, width=suffix)[0]
-            return resp_url
             return resp_url
         elif self.path:
             directory, filename = self.url.rsplit('/', 1)
             name, ext = filename.split('.', 1)
-            return "{}/responsive/{}-{}.{}".format(directory, name, suffix, ext)
-        else: 
+            return "{}/responsive/{}-{}.{}".format(
+                directory, name, suffix, ext)
+        else:
             return self.url
 
     def deleteFromServer(self):
         if self.cloudinary_id:
             uploader.destroy(self.cloudinary_id)
+        # removal from S3 is not set up yet
         elif self.path:
             directory, filename = self.path.rsplit('/', 1)
             name, ext = filename.split('.', 1)

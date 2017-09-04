@@ -4,6 +4,7 @@ from app.models import User, AnonymousUser, Role, Permission
 
 
 class UserModelTestCase(unittest.TestCase):
+    # More tests are coming
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()

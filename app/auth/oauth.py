@@ -1,10 +1,17 @@
 import json
-
 from rauth import OAuth2Service
 from flask import current_app, url_for, request, redirect, session
 
 
+"""
+This implementation of oauth2 login is based on this tutorial:
+https://blog.miguelgrinberg.com/post/oauth-authentication-with-flask
+Provider specific code is my work
+"""
+
+
 class OAuthSignIn(object):
+
     providers = None
 
     def __init__(self, provider_name):
@@ -42,7 +49,8 @@ class FacebookSignIn(OAuthSignIn):
             client_id=self.consumer_id,
             client_secret=self.consumer_secret,
             authorize_url='https://graph.facebook.com/v2.10/oauth/authorize',
-            access_token_url='https://graph.facebook.com/v2.10/oauth/access_token',
+            access_token_url=('https://graph.facebook.com/v2.10/'
+                              'oauth/access_token'),
             base_url='https://graph.facebook.com/'
         )
 
@@ -141,7 +149,8 @@ class GoogleSignIn(OAuthSignIn):
                   'redirect_uri': self.get_callback_url()},
             decoder=decode_json
         )
-        me = oauth_session.get('https://www.googleapis.com/oauth2/v1/userinfo').json()
+        me = oauth_session.get(
+            'https://www.googleapis.com/oauth2/v1/userinfo').json()
         return (
             'google$' + me['id'],
             me['name'],

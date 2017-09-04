@@ -7,6 +7,12 @@ from ..models import User
 from ..email import send_email
 
 
+"""
+This implementation of oauth2 login is based on this tutorial:
+https://blog.miguelgrinberg.com/post/oauth-authentication-with-flask
+"""
+
+
 @auth.route('/login')
 def login():
     return render_template('auth/login.html')
@@ -16,7 +22,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('You have been logged out')
     return redirect(url_for('main.index'))
 
 
@@ -35,7 +41,7 @@ def oauth_callback(provider):
     oauth = OAuthSignIn.get_provider(provider)
     provider_id, username, email = oauth.callback()
     if provider_id is None:
-        flash('Authentication failed.')
+        flash('Authentication failed')
         return redirect(url_for('main.index'))
     user = User.query.filter_by(provider_id=provider_id).first()
     if not user:
