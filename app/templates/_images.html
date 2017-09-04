@@ -10,7 +10,17 @@
       <li class="is-active orbit-slide">
         <figure class="orbit-figure">
           <a href="{{ url_for('main.getItem', item_id = item.id)}}">
-            <picture class="orbit-image">             
+            {% if request.url_rule.endpoint == "main.getItem" %}
+            <picture class="orbit-image">
+              <source
+                srcset="{{image.getResponsive("600")}} 1x,
+                        {{image.getResponsive("1200")}} 2x">
+              <img
+                src="{{image.getResponsive("600")}}"
+                alt="Product image">
+            </picture>
+            {% else %}
+            <picture class="orbit-image">
               <source
                 media="(max-width: 1023px)"
                 srcset="{{image.getResponsive("600")}} 1x,
@@ -23,6 +33,7 @@
                 src="{{image.getResponsive("600")}}"
                 alt="Product image">
             </picture>
+            {% endif %}
           </a>
         </figure>
       </li>

@@ -6,7 +6,7 @@
 <main>
   <div class="row">
     <div class="column small-6">
-      <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h3>{{item.header}}</h3></a>
+      <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h5>{{item.header}}</h5></a>
     </div>
     {% if item.author == current_user or moderate %}
     <div class="column small-4 text-right">
@@ -16,13 +16,13 @@
     {% endif %}
   </div>
   <div class="row">
-    <div class="medium-6 small-12 column text-center">
+    <div class="medium-6 small-12 column text-left">
     {% include '_images.html' %}
     </div>
     <div class="medium-6 small-12 column text-right">
       <div class="row">
         <div class="column">
-          <h3>Description</h3>
+          <h5>Description</h5>
           <p>{{item.body}}</p>
         </div>
         <div class="column">

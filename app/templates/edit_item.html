@@ -16,14 +16,14 @@
           <picture class="orbit-image">             
             <source
               media="(max-width: 1023px)"
-              srcset="{{item.images.first().getResponsive("600")}} 1x,
-                     {{item.images.first().getResponsive("1200")}} 2x">
+              srcset="{{image.getResponsive("600")}} 1x,
+                     {{image.getResponsive("1200")}} 2x">
             <source
               media="(min-width: 1024px)"
-              srcset="{{item.images.first().getResponsive("300")}} 1x,
-                     {{item.images.first().getResponsive("600")}} 2x">
+              srcset="{{image.getResponsive("300")}} 1x,
+                     {{image.getResponsive("600")}} 2x">
             <img
-              src="{{item.images.first().getResponsive("600")}}"
+              src="{{image.getResponsive("600")}}"
               alt="Product image">
           </picture>
           <form method="POST" action="{{ url_for('.deleteImage', item_id = item.id, image_id=image.id) }}">

@@ -3,7 +3,7 @@
     <div class="column data-equalizer-watch">
       <div class="row">
         <div class="column small-8">
-          <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h3>{{item.header}}</h3></a>
+          <a href='{{ url_for('main.getItem', item_id = item.id)}}'><h5>{{item.header}}</h5></a>
         </div>
         <div class="column small-4 text-right">
           {% if item.author == current_user %}
