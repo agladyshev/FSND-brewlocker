@@ -2,37 +2,12 @@ body, h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather', serif;
 }
 
-/*body, main, nav {
-  background-color: #ededed;
-}*/
-
-/*header {
-  background-image: linear-gradient(white, #ededed);
-}
-*/
 nav {
   padding-bottom: 0.5rem;
 }
 
 footer {
   padding-bottom: 2rem;
-}
-
-article {
-  background-color: white;
-  margin: 0.2rem 0;
-  -moz-border-radius: 0.2rem;
-  -webkit-border-radius: 0.2rem;
-  border-radius: 0.2rem; /* future proofing */
-  -khtml-border-radius: 0.2rem; /* for old Konqueror browsers */
-}
-
-article:first-of-type {
-  margin-top: 1rem;
-}
-
-article:last-of-type {
-  margin-bottom: 1rem;
 }
 
 a {
@@ -150,6 +125,7 @@ h1 {
     }
     .title-bar-title, .top-bar {
       pointer-events: auto;
+      background: rgba(255,255,255, 0) 
     }
   }
   
