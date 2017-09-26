@@ -53,3 +53,6 @@ package-lock.json
 
 # Environment valuables
 .env
+
+# Bug list
+.bugs
