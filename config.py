@@ -58,6 +58,14 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
+    SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
+    S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
+    S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    CLOUDINARY = True
+    CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
@@ -84,14 +92,6 @@ class ProductionConfig(Config):
 
 class HerokuConfig(ProductionConfig):
 
-    SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
-    S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
-    S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    CLOUDINARY = True
-    CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
-
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
@@ -108,11 +108,25 @@ class HerokuConfig(ProductionConfig):
         app.logger.addHandler(file_handler)
 
 
+class UnixConfig(ProductionConfig):
+
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+        # log to syslog
+        import logging
+        from logging.handlers import SysLogHandler
+        syslog_handler = SysLogHandler()
+        syslog_handler.setLevel(logging.WARNING)
+        app.logger.addHandler(syslog_handler)
+
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
     'heroku': HerokuConfig,
+    'unix': UnixConfig,
 
     'default': DevelopmentConfig
 }
